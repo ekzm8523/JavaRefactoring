@@ -9,5 +9,4 @@ public class RiceBowl extends GameObject{
 		myObject = RICEBOWL;
 	}
 	
-	
 }

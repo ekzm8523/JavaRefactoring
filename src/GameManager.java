@@ -2,6 +2,7 @@
 public class GameManager {
 	private Game mGame;
 	
+	
 	void setGame(Game _game) {
 		mGame = _game; 
 	}

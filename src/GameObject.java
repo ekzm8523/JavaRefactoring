@@ -15,6 +15,9 @@ public class GameObject {
 	public static final int RICEBOWL = 3;
 	public static final int PLAYER = 4;
 	public static final int MAPOUTSIDE = 5;
+	public void setImage(ImageIcon icon) {
+		label = new JLabel(icon);
+	}
 	public GameObject() {
 		boundPoint.x = -1;
 		boundPoint.y = -1;
@@ -49,12 +52,14 @@ public class GameObject {
 	public int getY() {
 		return boundPoint.y;
 	}
-	public void setPoint(Point p) {
-		this.boundPoint = p;
+	public void setPoint(int x,int y) {
+		this.boundPoint.x = x;
+		this.boundPoint.y = y;
 	}
 	public Point getPoint() {
 		return boundPoint;
 	}
+	
 	public void addImageIcon() {
 		label.setBounds(boundPoint.x * 50, boundPoint.y * 50+100, 50, 50);
 		label.setVisible(true);

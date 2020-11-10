@@ -1,10 +1,10 @@
 public interface State {
 	
-	public void mainButton(Game game);
-	public void rankButton(Game game);
-	public void startButton(Game game);
-	public void inputButton(Game game);
-	public void gameOver(Game game);
-	public void gameClear(Game game);
-	public void nextStage(Game game);
+	public void mainButton();
+	public void rankButton();
+	public void startButton();
+	public void inputButton();
+	public void gameOver();
+	public void gameClear();
+	public void nextStage();
 }

@@ -45,14 +45,15 @@ public class RankPanel extends JPanel {
 		}
 	}
 	
-	public static RankPanel getInstance(Game game) {
+	public static RankPanel getInstance() {
 		if (rankPanel == null)
-			rankPanel = new RankPanel(game);
+			rankPanel = new RankPanel();
 
 		return rankPanel;
 	}
 		
-	private RankPanel(Game game) {
+	private RankPanel() {
+		Game game = GameManager.getInstance().getGame();
 		connectDB();
 		printRanking();
 		

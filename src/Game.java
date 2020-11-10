@@ -2,44 +2,46 @@ import javax.swing.JFrame;
 
 public class Game extends JFrame {
 	
-	private State stateManager;
+	 
+	private State state;
 	
 	public Game() {
+		GameManager.getInstance().setGame(this);
 		setTitle("배고픈 댕댕이");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 700);
 		setVisible(true);
-	
-		stateManager = MainState.getInstance(this);
+		
+		state = MainState.getInstance();
 		pack();
 	}
 		
-	public void setState(State stateManager) {
-		this.stateManager = stateManager;
+	public void setState(State state) {
+		this.state = state;
 	}
 	
 	public void mainButton() {
-		this.stateManager.mainButton(this);
+		this.state.mainButton();
 	}
 	
 	public void rankButton() {
-		this.stateManager.rankButton(this);
+		this.state.rankButton();
 	}
 	
 	public void startButton() {
-		this.stateManager.startButton(this);
+		this.state.startButton();
 	}
 	
 	public void gameClaer() {
-		this.stateManager.gameClear(this);
+		this.state.gameClear();
 	}
 	
 	public void gameOver() {
-		this.stateManager.gameOver(this);
+		this.state.gameOver();
 	}
 	
 	public void nextStage() {
-		this.stateManager.nextStage(this);
+		this.state.nextStage();
 	}
 	
 	public Game getGame() {

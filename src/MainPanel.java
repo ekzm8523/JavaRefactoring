@@ -20,14 +20,16 @@ public class MainPanel extends JPanel {
 	private ImageIcon start1, start2, ranking1, ranking2, dog1, dog2, dog3, dog4, bgmOn, bgmOff; // 각 버튼들과 라벨들에 씌워주기 위한
 																									// 이미지 아이콘
 	
-	public static MainPanel getInstance(Game game) {
+	public static MainPanel getInstance() {
+		Game game = GameManager.getInstance().getGame();
 		if (mainPanel == null)
-			mainPanel = new MainPanel(game);
+			mainPanel = new MainPanel();
 
 		return mainPanel;
 	}
 
-	private MainPanel(Game game) { // 시작하면 뜨는 게임의 시작 패널
+	private MainPanel() { // 시작하면 뜨는 게임의 시작 패널
+		Game game = GameManager.getInstance().getGame();
 
 		setPreferredSize(new Dimension(600, 700)); // 전체 창 크기 조절
 		Color backcolor = new Color(195, 224, 166); // 컬러값 생성

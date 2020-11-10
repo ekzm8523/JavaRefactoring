@@ -7,51 +7,54 @@ public class MainState implements State {
 		System.out.println("Main Page 출력");
 	}
 
-	public static MainState getInstance(Game game) {
+	public static MainState getInstance() {
+		Game game = GameManager.getInstance().getGame();
 		game.getContentPane().removeAll();
-		game.getContentPane().add(MainPanel.getInstance(game));
+		game.getContentPane().add(MainPanel.getInstance());
 		game.repaint();
 		game.setVisible(true);
 		if (mainState == null)
 			mainState = new MainState();
-
+		
 		return mainState;
 	}
 
 	@Override
-	public void rankButton(Game game) {
-		game.setState(RankState.getInstance(game));
+	public void rankButton() {
+		Game game = GameManager.getInstance().getGame();
+		game.setState(RankState.getInstance());
 		System.out.println("Main -> Ranking Page 진입");
 	}
 
 	@Override
-	public void startButton(Game game) {
-		game.setState(PlayingState.getInstance(game));
+	public void startButton() {
+		Game game = GameManager.getInstance().getGame();
+		game.setState(PlayingState.getInstance());
 		System.out.println("Main -> Game Playing Page 진입");
 	}
 
 	@Override
-	public void inputButton(Game game) {
+	public void inputButton() {
 	}
 
 	@Override
-	public void mainButton(Game game) {
+	public void mainButton() {
 	}
 
 	@Override
-	public void gameOver(Game game) {
+	public void gameOver() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void gameClear(Game game) {
+	public void gameClear() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void nextStage(Game game) {
+	public void nextStage() {
 		// TODO Auto-generated method stub
 
 	}

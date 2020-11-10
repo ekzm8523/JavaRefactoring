@@ -87,6 +87,12 @@ public class Icon {
 		changedImg = originImg.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
 		return new ImageIcon(changedImg);
 	}
+	public ImageIcon getIcon(int column, int row) {
+	    originIcon = new ImageIcon(getIconName());
+	    originImg = originIcon.getImage();
+	    changedImg = originImg.getScaledInstance(column, row, Image.SCALE_SMOOTH);
+	    return new ImageIcon(changedImg);
+	}
 
 	public ImageIcon getGround() {
 		originIcon = new ImageIcon(getIconName());

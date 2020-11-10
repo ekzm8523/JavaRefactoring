@@ -12,10 +12,10 @@ public class PlayPanel extends JPanel {
 	private boolean isMovable = true, isGameOver; // 움직였는지, 게임 오버됐는지 반환
 	private ImageIcon dogFrontImage, dogBackImage, dogRightImage, dogLeftImage, wallImage, groundImage, boneImage,
 			treeImage, bowlImage, fullBowlImage; // 아이콘 이름들
-	private ImageIcon originIcon, icon;
+	private ImageIcon originIcon, icon,stageIcon,scoreIcon,moveIcon;
 	private Image originImg, changedImg;
 	private TimeThread lblTime;
-
+	
 // *******
 	Player player;
 	ArrayList<Bone> boneList = new ArrayList<>();
@@ -35,12 +35,21 @@ public class PlayPanel extends JPanel {
 		Font font = new Font("Verdana", Font.BOLD, 20);
 
 		JLabel lblStage, lblScore, lblMove;
-		setStageIcon();
-		lblStage = new JLabel(icon);
-		setScoreIcon();
-		lblScore = new JLabel(icon, SwingConstants.CENTER);
-		setMoveIcon();
-		lblMove = new JLabel(icon, SwingConstants.CENTER);
+		String strLevel = String.valueOf(1);
+	    stageIcon= new Icon("stage" + strLevel + "png").getIcon(100,100);
+	    lblStage = new JLabel(stageIcon);
+	      
+	    scoreIcon= new Icon("ScoreBoard.png").getIcon(200,100);
+	    lblScore = new JLabel(scoreIcon, SwingConstants.CENTER);
+	      
+	    moveIcon= new Icon("MoveBoard.png").getIcon(150,100);
+	    lblMove = new JLabel(moveIcon, SwingConstants.CENTER);
+//		setStageIcon();
+//		lblStage = new JLabel(icon);
+//		setScoreIcon();
+//		lblScore = new JLabel(icon, SwingConstants.CENTER);
+//		setMoveIcon();
+//		lblMove = new JLabel(icon, SwingConstants.CENTER);
 
 		lblStage.setBounds(0, 0, 100, 100); // lblStage 초기화
 		lblStage.setOpaque(true);
@@ -141,28 +150,28 @@ public class PlayPanel extends JPanel {
 		} // 캐릭터 좌표, 박스 좌표 저장
 
 	}
-
-	void setStageIcon() { // 아이콘을 현재 레벨을 표시해주는 아이콘으로 바꿈
-		String strLevel = String.valueOf(1);
-		originIcon = new ImageIcon("images/stage" + strLevel + ".png"); // 단계 표시!
-		originImg = originIcon.getImage();
-		changedImg = originImg.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-		icon = new ImageIcon(changedImg);
-	}
-
-	void setScoreIcon() { // 아이콘을 score 배경 아이콘으로 바꿈
-		originIcon = new ImageIcon("images/ScoreBoard.png"); // 단계 표시!
-		originImg = originIcon.getImage();
-		changedImg = originImg.getScaledInstance(200, 100, Image.SCALE_SMOOTH);
-		icon = new ImageIcon(changedImg);
-	}
-
-	void setMoveIcon() { // 아이콘을 score 배경 아이콘으로 바꿈
-		originIcon = new ImageIcon("images/MoveBoard.png"); // 단계 표시!
-		originImg = originIcon.getImage();
-		changedImg = originImg.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
-		icon = new ImageIcon(changedImg);
-	}
+	
+//	void setStageIcon() { // 아이콘을 현재 레벨을 표시해주는 아이콘으로 바꿈
+//		String strLevel = String.valueOf(1);
+//		originIcon = new ImageIcon("images/stage" + strLevel + ".png"); // 단계 표시!
+//		originImg = originIcon.getImage();
+//		changedImg = originImg.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+//		icon = new ImageIcon(changedImg);
+//	}
+//
+//	void setScoreIcon() { // 아이콘을 score 배경 아이콘으로 바꿈
+//		originIcon = new ImageIcon("images/ScoreBoard.png"); // 단계 표시!
+//		originImg = originIcon.getImage();
+//		changedImg = originImg.getScaledInstance(200, 100, Image.SCALE_SMOOTH);
+//		icon = new ImageIcon(changedImg);
+//	}
+//
+//	void setMoveIcon() { // 아이콘을 score 배경 아이콘으로 바꿈
+//		originIcon = new ImageIcon("images/MoveBoard.png"); // 단계 표시!
+//		originImg = originIcon.getImage();
+//		changedImg = originImg.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
+//		icon = new ImageIcon(changedImg);
+//	}
 
 	public class KeyboardListener implements KeyListener {
 

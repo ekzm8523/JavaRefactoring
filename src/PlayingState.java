@@ -6,7 +6,8 @@ public class PlayingState implements State {
 		System.out.println("Game Stage Page 출력");
 	}
 
-	public static PlayingState getInstance(Game game) {
+	public static PlayingState getInstance() {
+		Game game = GameManager.getInstance().getGame();
 		game.getContentPane().removeAll();
 		game.getContentPane().add(new PlayPanel(new MapArray(1).getArray()));
 		game.getContentPane().getComponent(0).requestFocus();
@@ -21,42 +22,44 @@ public class PlayingState implements State {
 	}
 
 	@Override
-	public void gameOver(Game game) {
-		game.setState(GameOverState.getInstance(game));
+	public void gameOver() {
+		Game game = GameManager.getInstance().getGame();
+		game.setState(GameOverState.getInstance());
 		System.out.println("Playing -> GameOver Page 진입");
 	}
 
 	@Override
-	public void gameClear(Game game) {
+	public void gameClear() {
+		Game game = GameManager.getInstance().getGame();
 		game.setState(GameClearState.getInstance());
 		System.out.println("Playing -> GameClear Page 진입");
 	}
 
 	@Override
-	public void nextStage(Game game) {
+	public void nextStage() {
 		System.out.println("state는 그대로 PlayingState 이고 보여주는 Stage를 바꿔야 함");
 	}
 
 	@Override
-	public void mainButton(Game game) {
+	public void mainButton() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void rankButton(Game game) {
+	public void rankButton() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void startButton(Game game) {
+	public void startButton() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void inputButton(Game game) {
+	public void inputButton() {
 		// TODO Auto-generated method stub
 
 	}

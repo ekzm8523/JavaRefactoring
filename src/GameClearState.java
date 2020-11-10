@@ -15,36 +15,36 @@ public class GameClearState implements State {
 	}
 	
 	@Override
-	public void gameClear(Game game) {	
+	public void gameClear() {	
 	}
 	
 	@Override
-	public void mainButton(Game game) {
+	public void mainButton() {
 		// TODO Auto-generated method stub	
 	}
 
 	@Override
-	public void rankButton(Game game) {
+	public void rankButton() {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void startButton(Game game) {
+	public void startButton() {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void inputButton(Game game) {
+	public void inputButton() {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void gameOver(Game game) {
+	public void gameOver() {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void nextStage(Game game) {
+	public void nextStage() {
 		// TODO Auto-generated method stub
 		
 	}

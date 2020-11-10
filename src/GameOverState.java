@@ -7,7 +7,8 @@ public class GameOverState implements State {
 		System.out.println("GameOver Page 출력");
 	}
 	
-	public static GameOverState getInstance(Game game) {
+	public static GameOverState getInstance() {
+		Game game = GameManager.getInstance().getGame();
 
 		game.getContentPane().removeAll();
 		game.getContentPane().add(GameOverPanel.getInstance(game));
@@ -20,41 +21,42 @@ public class GameOverState implements State {
 	}
 
 	@Override
-	public void gameOver(Game game) {
+	public void gameOver() {
 	}
 	
 	@Override
-	public void mainButton(Game game) {
-		game.setState(MainState.getInstance(game));
+	public void mainButton() {
+		Game game = GameManager.getInstance().getGame();
+		game.setState(MainState.getInstance());
 		System.out.println("GameOver -> Main page 진입");
 	}
 
 	@Override
-	public void rankButton(Game game) {
+	public void rankButton() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void startButton(Game game) {
+	public void startButton() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void inputButton(Game game) {
+	public void inputButton() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void gameClear(Game game) {
+	public void gameClear() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void nextStage(Game game) {
+	public void nextStage() {
 		// TODO Auto-generated method stub
 		
 	}

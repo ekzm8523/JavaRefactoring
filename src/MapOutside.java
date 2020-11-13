@@ -6,6 +6,4 @@ public class MapOutside extends GameObject{
 		super(x, y, imageIcon);
 		myObject = MAPOUTSIDE;
 	}
-	
-
 }

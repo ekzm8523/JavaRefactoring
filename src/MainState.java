@@ -1,3 +1,4 @@
+
 public class MainState implements State {
 
 	private static MainState mainState;

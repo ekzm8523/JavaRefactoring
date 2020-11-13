@@ -1,3 +1,4 @@
+
 public class PlayingState implements State {
 
 	private static PlayingState playingState;

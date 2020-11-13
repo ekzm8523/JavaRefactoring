@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -17,13 +18,16 @@ public class PlayPanel extends JPanel {
 	private TimeThread lblTime;
 	
 // *******
-	Player player = new Player();
+	Player player;
 	ArrayList<Bone> boneList = new ArrayList<>();
 	ArrayList<RiceBowl> riceBowlList = new ArrayList<>();
 
 // *******
 	public PlayPanel(int mapArray[][]) {
-
+		
+		Game game = GameManager.getInstance().getGame();
+		Model model = GameManager.getInstance().getModel();
+		
 		//mapArray = a; // 맵 배열 전달 받기
 		map = new Map(mapArray);
 		undo = new Undo();
@@ -32,112 +36,281 @@ public class PlayPanel extends JPanel {
 		setBounds(0, 100, 600, 600);
 		setBackground(Color.red);
 		setLayout(null);
-		addKeyListener(new KeyboardListener());
+		addKeyListener(new KeyListener() {
 
-		Font font = new Font("Verdana", Font.BOLD, 20);
+	         @Override
+	         public void keyTyped(KeyEvent e) {
+	            // TODO Auto-generated method stub
+
+	         }
+
+	         @Override
+	         public void keyPressed(KeyEvent e) {
+	            // TODO Auto-generated method stub
+
+	         }
+
+	         @Override
+	         public void keyReleased(KeyEvent e) {
+	            // TODO Auto-generated method stub
+	            int keyEvent = e.getKeyCode();
+
+	            System.out.println(keyEvent);
+	            System.out.println("Good");
+	            move(keyEvent);
+	            PlayMusic.getInstance().moveMusic();
+	            view(keyEvent);
+	            if(isGameClear())
+	               game.nextStage();
+
+	         }
+	         
+	      });
+
 
 		JLabel lblStage, lblScore, lblMove;
-		String strLevel = String.valueOf(1);
-	    stageIcon= new Icon("stage" + strLevel + "png").getIcon(100,100);
-	    lblStage = new JLabel(stageIcon);
-	      
-	    scoreIcon= new Icon("ScoreBoard.png").getIcon(200,100);
-	    lblScore = new JLabel(scoreIcon, SwingConstants.CENTER);
-	      
-	    moveIcon= new Icon("MoveBoard.png").getIcon(150,100);
-	    lblMove = new JLabel(moveIcon, SwingConstants.CENTER);
-
-		lblStage.setBounds(0, 0, 100, 100); // lblStage 초기화
-		lblStage.setOpaque(true);
-		lblStage.setBackground(Color.white);
-
-		lblScore.setBounds(100, 0, 200, 100); // lblScore 초기화
-		lblScore.setFont(font);
-		lblScore.setForeground(Color.black);
-		lblScore.setOpaque(true);
-		lblScore.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblScore.setBackground(Color.blue);
-
-		lblMove.setBounds(300, 0, 150, 100); // lblMove 초기화
-		lblMove.setFont(font);
-		lblMove.setForeground(Color.black);
-		lblMove.setOpaque(true);
-		lblMove.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblMove.setBackground(Color.red);
+	       stageIcon= new Icon("stage" + model.getLevel() + ".png").getIcon(100,100);
+	       lblStage = new Label(stageIcon).getPlayLabel(0, 0, 100, 100);
+	         
+	       scoreIcon= new Icon("ScoreBoard.png").getIcon(200,100);
+	       lblScore = new Label(scoreIcon, SwingConstants.CENTER).getPlayLabel(Color.blue,Color.black,100, 0, 200, 100);
+	         
+	       moveIcon= new Icon("MoveBoard.png").getIcon(150,100);
+	       lblMove = new Label(moveIcon, SwingConstants.CENTER).getPlayLabel(Color.red,Color.black,300, 0, 150, 100);
 
 		lblTime = new TimeThread();
-		lblTime.setBounds(450, 0, 150, 100);
-		lblTime.setOpaque(true);
-		lblTime.setBackground(Color.white);
-		lblTime.start(); // 시간 재기
+		
 
 		add(lblStage);
 		add(lblScore);
 		add(lblMove);
 		add(lblTime);
 
-		map.DrawObject(this,player,boneList,riceBowlList);
+		// -----------맵배열의 정보에 따라 캐릭터, 뼈다귀, 밥그릇을 먼저 라벨로 그려서 화면의 맨 위로 보이게 하기
+		// ----------한 칸당 50x50의 크기
+
+		for (int i = 0; i < 12; i++) {
+			for (int j = 0; j < 12; j++) {
+				if (map.mapArray[i][j] == GameObject.PLAYER) { // 캐릭터 좌표 저장
+					map.mapArray[i][j] = 0;
+					player = new Player(j, i, MyImage.dogFrontImage);
+					player.addImageIcon();
+					add(player.label);
+
+				} else if (map.mapArray[i][j] == GameObject.BONE) { // 뼈다귀의 갯수만큼 좌표 저장, 그리기
+					Bone tmpBone = new Bone(j, i, MyImage.boneImage);
+					tmpBone.addImageIcon();
+					add(tmpBone.label);
+					boneList.add(tmpBone);
+
+				} else if (map.mapArray[i][j] == GameObject.RICEBOWL) { // 밥그릇의 갯수만큼 좌표저장, 그리기
+					RiceBowl riceBowl = new RiceBowl(j, i, MyImage.bowlImage);
+					riceBowl.addImageIcon();
+					add(riceBowl.label);
+					riceBowlList.add(riceBowl);
+
+				}
+			}
+		}
+
 		map.DrawMap(this);
 
+		// ---------------------------------맵 그리기------------------------------------
 		
 	}
-	
 
-	public class KeyboardListener implements KeyListener {
 
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			int keyEvent = e.getKeyCode();
-
-			System.out.println(keyEvent);
-			System.out.println("Good");
-			move(keyEvent);
-			view(keyEvent);
-
-		}
-
-	}
 
 	public void move(int key) { // 캐릭터와 뼈다귀, 밥그릇 좌표 옮기는 메소드
 
 		switch (key) { // 방향키 값을 받아와서 그 값에 따라 움직임
 		case 38: // UP-------------------------------------------------------------------------------------------
-			GameManager.getInstance().getGame().getController().moveUp(player, undo, map, boneList, riceBowlList);
+			player.moveUp();
+			undo.nUndo = 1; // 캐릭터만 움직임
+			if (map.mapArray[player.getY()][player.getX()] == GameObject.BONE) // 플레이어 이동할 좌표가 Box라면
+			{
+				if (map.mapArray[player.getY() - 1][player.getX()] == GameObject.GRASS
+						|| map.mapArray[player.getY() - 1][player.getX()] == GameObject.RICEBOWL) // 박스가 이동해야할 부분이
+																								// 길이나 골이라면
+				{
+					map.mapArray[player.getY()][player.getX()] = GameObject.GRASS; // 캐릭터 자리 0으로 만들고
+					map.mapArray[player.getY() - 1][player.getX()] = GameObject.BONE; // 위를 박스로 바꾼다
+					undo.undoY = player.getY() - 1; // 박스 위치 기억해주고
+					undo.undoX = player.getX();
+					for (int i = 0; i < riceBowlList.size(); i++) {
+						if (boneList.get(i).getX() == player.getX() && boneList.get(i).getY() == player.getY()) {
+							boneList.get(i).setY(undo.undoY);
+						}
 
+					}
+					undo.nUndo = 11; // 캐릭터와 박스 모두 움직임
+					isMovable = true;
+				} else { // 벽이면
+					// player.getY()++; // 원위치
+					player.moveDown();
+					isMovable = false; // 못움직임
+					undo.nUndo = 0; // 언두도 못함
+				}
+
+			} else if (map.mapArray[player.getY()][player.getX()] == GameObject.BRICK) {
+				player.moveDown();
+				isMovable = false; // 못움직임
+				undo.nUndo = 0; // 언두도 못함
+			}
 
 			break; // 아래, 왼쪽, 오른쪽도 같은 방법으로 바꿔준다.
 		case 40: // DOWN-------------------------------------------------------------------------------
-			GameManager.getInstance().getGame().getController().moveDown(player, undo, map, boneList, riceBowlList);
+			player.moveDown();
+			undo.nUndo = 2;
+			if (map.mapArray[player.getY()][player.getX()] == 2) {
+				if (map.mapArray[player.getY() + 1][player.getX()] == 0
+						|| map.mapArray[player.getY() + 1][player.getX()] == 3) {
+					map.mapArray[player.getY()][player.getX()] = 0;
+					map.mapArray[player.getY() + 1][player.getX()] = 2;
+					undo.undoX = player.getX();
+					undo.undoY = player.getY() + 1;
+					for (int i = 0; i < riceBowlList.size(); i++) {
+						if (boneList.get(i).getX() == player.getX() && boneList.get(i).getY() == player.getY()) {
+							boneList.get(i).setY(undo.undoY);
+						}
+					}
+					undo.nUndo = 21;
+					isMovable = true;
+				} else {
+					// player.getY()--;
+					player.moveUp();
+					isMovable = false;
+					undo.nUndo = 0;
+				}
+			} else if (map.mapArray[player.getY()][player.getX()] == 1) {
+				// player.getY()--;
+				player.moveUp();
+				isMovable = false;
+				undo.nUndo = 0;
+			}
 			break;
 		case 37: // LEFT----------------------------------------------------------------------------------
 			// player.moveLeft();
-			GameManager.getInstance().getGame().getController().moveLeft(player, undo, map, boneList, riceBowlList);
-
+			player.moveLeft();
+			undo.nUndo = 3;
+			if (map.mapArray[player.getY()][player.getX()] == 2) {
+				if (map.mapArray[player.getY()][player.getX() - 1] == 0
+						|| map.mapArray[player.getY()][player.getX() - 1] == 3) {
+					map.mapArray[player.getY()][player.getX()] = 0;
+					map.mapArray[player.getY()][player.getX() - 1] = 2;
+					undo.undoX = player.getX() - 1;
+					undo.undoY = player.getY();
+					for (int i = 0; i < riceBowlList.size(); i++) {
+						if (boneList.get(i).getX() == player.getX() && boneList.get(i).getY() == player.getY()) {
+							boneList.get(i).setX(undo.undoX);
+						}
+					}
+					undo.nUndo = 31;
+					isMovable = true;
+				} else {
+					// player.getX()++;
+					player.moveRight();
+					isMovable = false;
+					undo.nUndo = 0;
+				}
+			} else if (map.mapArray[player.getY()][player.getX()] == 1) {
+				// player.getX()++;
+				player.moveRight();
+				isMovable = false;
+				undo.nUndo = 0;
+			}
 			break;
 		case 39: // RIGHT--------------------------------------------------------------------------------------
 			// player.getX()++; // 캐릭터 오른쪽으로 이동(x좌표 + 1)
-			GameManager.getInstance().getGame().getController().moveRight(player, undo, map, boneList, riceBowlList);
+			player.moveRight();
+			undo.nUndo = 4;
+			if (map.mapArray[player.getY()][player.getX()] == 2) {
+				if (map.mapArray[player.getY()][player.getX() + 1] == 0
+						|| map.mapArray[player.getY()][player.getX() + 1] == 3) {
+					map.mapArray[player.getY()][player.getX()] = 0;
+					map.mapArray[player.getY()][player.getX() + 1] = 2;
+					undo.undoX = player.getX() + 1;
+					undo.undoY = player.getY();
+					for (int i = 0; i < riceBowlList.size(); i++) {
+						if (boneList.get(i).getX() == player.getX() && boneList.get(i).getY() == player.getY()) {
+							boneList.get(i).setX(undo.undoX);
+						}
+					}
+					undo.nUndo = 41;
+					isMovable = true;
+				} else {
+					player.moveLeft();
 
+					isMovable = false;
+					undo.nUndo = 0;
+				}
+
+			} else if (map.mapArray[player.getY()][player.getX()] == 1) {
+				player.moveLeft();
+				isMovable = false;
+				undo.nUndo = 0;
+			}
 			break;
 		}
 	} // move
 
 	public void undo() {
-		GameManager.getInstance().getGame().getController().undo(player, undo, map, boneList, riceBowlList);
 
+		switch (undo.nUndo) { // undo.nUndo값에 따라 직전 상태로 바뀜
+		case 1:
+			move(40); // 캐릭터만 아래로 움직여줌
+			break;
+		case 11: // 캐릭터와 뼈다귀 모두 아래로 움직여줌
+			map.mapArray[undo.undoY][undo.undoX] = 0;
+			map.mapArray[undo.undoY + 1][undo.undoX] = 2; // 뼈다귀 먼저 맵에서 움직여주고
+			for (int i = 0; i < riceBowlList.size(); i++) { // 뼈다귀 좌표 바꿔주고
+				if (boneList.get(i).getX() == undo.undoX && boneList.get(i).getY() == undo.undoY) {
+					boneList.get(i).setY(undo.undoY + 1);
+				}
+			}
+			move(40); // 캐릭터 움직이기
+			break;
+		case 2:
+			move(38); // 캐릭터만 위로 움직이기
+			break;
+		case 21: // 캐릭터와 뼈다귀 모두 위로
+			map.mapArray[undo.undoY][undo.undoX] = 0;
+			map.mapArray[undo.undoY - 1][undo.undoX] = 2; // 뼈다귀 먼저 움직이고
+			for (int i = 0; i < riceBowlList.size(); i++) { // 뼈다귀 좌표 바꿔주고
+				if (boneList.get(i).getX() == undo.undoX && boneList.get(i).getY() == undo.undoY) {
+					boneList.get(i).setY(undo.undoY - 1);
+				}
+			}
+			move(38); // 캐릭터 움직이기
+			break;
+		case 3: // 캐릭터만 오른쪽으로 움직이기
+			move(39);
+			break;
+		case 31: // 캐릭터와 뼈다귀 모두 오른쪽으로
+			map.mapArray[undo.undoY][undo.undoX] = 0;
+			map.mapArray[undo.undoY][undo.undoX + 1] = 2; // 뼈다귀 먼저 움직여주고
+			for (int i = 0; i < riceBowlList.size(); i++) {
+				if (boneList.get(i).getX() == undo.undoX && boneList.get(i).getY() == undo.undoY) {
+					boneList.get(i).setX(undo.undoX + 1);
+				}
+			}
+			move(39); // 캐릭터 움직이기
+			break;
+		case 4:
+			move(37); // 캐릭터만 왼쪽으로 움직이기
+			break;
+		case 41: // 캐릭터와 뼈다귀 움직이기
+			map.mapArray[undo.undoY][undo.undoX] = 0;
+			map.mapArray[undo.undoY][undo.undoX - 1] = 2; // 뼈다귀 먼저 움직여주고
+			for (int i = 0; i < riceBowlList.size(); i++) {
+				if (boneList.get(i).getX() == undo.undoX && boneList.get(i).getY() == undo.undoY) {
+					boneList.get(i).setX(undo.undoX - 1);
+				}
+			}
+			move(37); // 캐릭터 움직이기
+			break;
+		}
+		undo.nUndo = 0; // 다시 못 바꾸게 하기
 	} // undo
 
 	public void view(int key) { // 화면에 보이게 하기

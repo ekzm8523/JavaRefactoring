@@ -1,4 +1,3 @@
-
 public class Undo {
 	public int undoX,undoY,nUndo;
 	public Undo() {

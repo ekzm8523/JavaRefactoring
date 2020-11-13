@@ -1,3 +1,4 @@
+
 public class GameClearState implements State {
 
 	private static GameClearState gameClearState;

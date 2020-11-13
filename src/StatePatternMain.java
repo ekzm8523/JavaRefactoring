@@ -1,3 +1,4 @@
+
 public class StatePatternMain {
 
 	public static void main(String[] args) {
@@ -9,8 +10,8 @@ public class StatePatternMain {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		game.mainButton();
-		game.startButton();
+//		game.mainButton();
+//		game.startButton();
 //		game.gameClear();
 //		game.gameOver();
 //		game.startButton();

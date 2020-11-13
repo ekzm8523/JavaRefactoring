@@ -3,6 +3,10 @@ import java.util.ArrayList;
 public class GameController {
 	private boolean isMovable = true, isGameOver; // 움직였는지, 게임 오버됐는지 반환
 	
+	public GameController() {
+		
+	}
+	
 	void moveUp(Player player,Undo undo,Map map,
 				ArrayList<Bone> boneList, ArrayList<RiceBowl> riceBowlList){
 		

@@ -1,10 +1,7 @@
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,32 +13,33 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-public class GameOverPanel extends JPanel {
+public class GameClearPanel extends JPanel {
 
-	private static GameOverPanel gameOverPanel;
+	private static GameClearPanel gameOverPanel;
 
 	private JLabel lblGameOver;
 	private JTextField txtInput;
 	private JButton btnInput, btnGoMain;
 	private ImageIcon goMain1, goMain2, input1, input2, gameOver;
 
-	public static GameOverPanel getInstance() {
+	public static GameClearPanel getInstance() {
 		if (gameOverPanel == null)
-			gameOverPanel = new GameOverPanel();
+			gameOverPanel = new GameClearPanel();
 
 		return gameOverPanel;
 	}
 
-	private GameOverPanel() {
+	private GameClearPanel() {
 		Game game = GameManager.getInstance().getGame();
 		
 		setPreferredSize(new Dimension(600, 700));
 		setLayout(null);
 
-		gameOver = new Icon("GameOver.png").getIcon(400, 200);
+		gameOver = new Icon("GameClear.png").getIcon(400, 200);
 		lblGameOver = new JLabel(gameOver, lblGameOver.CENTER);
 		lblGameOver.setOpaque(false);
 		lblGameOver.setBounds(55, 100, 500, 350);
+
 		add(lblGameOver);
 
 		txtInput = new JTextField(3);
@@ -70,7 +68,6 @@ public class GameOverPanel extends JPanel {
 				}
 				else {
 					// 점수는 임시로 1600점
-					intxt = intxt.toUpperCase();
 					Rank.getInstance().setNewRank(1600, intxt);
 				}
 			}

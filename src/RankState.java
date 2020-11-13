@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 public class RankState implements State {
 
 	private static RankState rankState;
@@ -9,6 +11,10 @@ public class RankState implements State {
 	public static RankState getInstance() {
 		Game game = GameManager.getInstance().getGame();
 		game.getContentPane().removeAll();
+		
+		Rank.getInstance().hideBeforeRankLabel();
+		Rank.getInstance().printRanking(RankPanel.getInstance());
+		Rank.getInstance().isRankIn();
 		game.getContentPane().add(RankPanel.getInstance());
 		game.repaint();
 		game.setVisible(true);

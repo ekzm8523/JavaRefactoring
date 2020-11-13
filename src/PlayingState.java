@@ -8,16 +8,18 @@ public class PlayingState implements State {
 
 	public static PlayingState getInstance() {
 		Game game = GameManager.getInstance().getGame();
+		Model barObject = GameManager.getInstance().getModel();
+
 		game.getContentPane().removeAll();
-		game.getContentPane().add(new PlayPanel(new MapArray(1).getArray()));
+		game.getContentPane().add(new PlayPanel(new MapArray(barObject.getLevel()).getArray()));
 		game.getContentPane().getComponent(0).requestFocus();
 		game.repaint();
 		game.setVisible(true);
-		
+
 		if (playingState == null) {
 			playingState = new PlayingState();
 		}
-		
+
 		return playingState;
 	}
 
@@ -37,6 +39,13 @@ public class PlayingState implements State {
 
 	@Override
 	public void nextStage() {
+		Game game = GameManager.getInstance().getGame();
+		Model barObject = GameManager.getInstance().getModel();
+
+		barObject.setScore();
+		barObject.levelUp();
+
+		game.setState(PlayingState.getInstance());
 		System.out.println("state는 그대로 PlayingState 이고 보여주는 Stage를 바꿔야 함");
 	}
 

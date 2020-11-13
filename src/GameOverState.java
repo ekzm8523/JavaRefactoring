@@ -1,4 +1,3 @@
-
 public class GameOverState implements State {
 	
 	private static GameOverState gameOverState;
@@ -11,9 +10,10 @@ public class GameOverState implements State {
 		Game game = GameManager.getInstance().getGame();
 
 		game.getContentPane().removeAll();
-		game.getContentPane().add(GameOverPanel.getInstance(game));
+		game.getContentPane().add(GameOverPanel.getInstance());
 		game.repaint();
 		game.setVisible(true);
+		
 		if (gameOverState == null)
 			gameOverState = new GameOverState();
 
@@ -22,6 +22,7 @@ public class GameOverState implements State {
 
 	@Override
 	public void gameOver() {
+		
 	}
 	
 	@Override
@@ -33,8 +34,6 @@ public class GameOverState implements State {
 
 	@Override
 	public void rankButton() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

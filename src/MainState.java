@@ -1,4 +1,3 @@
-
 public class MainState implements State {
 
 	private static MainState mainState;
@@ -23,6 +22,7 @@ public class MainState implements State {
 	public void rankButton() {
 		Game game = GameManager.getInstance().getGame();
 		game.setState(RankState.getInstance());
+		
 		System.out.println("Main -> Ranking Page 진입");
 	}
 
@@ -30,6 +30,7 @@ public class MainState implements State {
 	public void startButton() {
 		Game game = GameManager.getInstance().getGame();
 		game.setState(PlayingState.getInstance());
+		PlayMusic.getInstance().stopMusic();
 		System.out.println("Main -> Game Playing Page 진입");
 	}
 

@@ -1,6 +1,6 @@
 import javax.swing.ImageIcon;
 
-public class myImage {
+public class MyImage {
 	public static ImageIcon dogFrontImage = Icon.getDogFront("cute_front.png");
 	public static ImageIcon dogBackImage = Icon.getDogBack("cute_back.png");
 	public static ImageIcon dogLeftImage = Icon.getDogLeft("cute_left.png");

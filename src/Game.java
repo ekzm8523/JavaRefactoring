@@ -7,12 +7,15 @@ public class Game extends JFrame {
 	public GameController controller;
 	public Game() {
 		GameManager.getInstance().setGame(this);
+		GameManager.getInstance().setModel(new Model());
 		controller = new GameController();
 		setTitle("배고픈 댕댕이");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 700);
 		setVisible(true);
 		
+		Rank.getInstance().connectDB();
+//		Rank.connectDB();
 		state = MainState.getInstance();
 		pack();
 	}
@@ -35,7 +38,7 @@ public class Game extends JFrame {
 		this.state.startButton();
 	}
 	
-	public void gameClaer() {
+	public void gameClear() {
 		this.state.gameClear();
 	}
 	

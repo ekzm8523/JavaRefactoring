@@ -38,6 +38,11 @@ public class TimeThread extends JLabel implements Runnable {
 		setHorizontalTextPosition(SwingConstants.CENTER);
 		
 		myThread = new Thread(this); // 쓰레드 생성
+		
+		setBounds(450, 0, 150, 100);
+		setOpaque(true);
+		setBackground(Color.white);
+		start(); // 시간 재기
 	}
 
 	public void start() {

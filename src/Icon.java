@@ -2,106 +2,106 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class Icon {
-	private String objectName;
-	static Image originImg, changedImg;
-	static ImageIcon originIcon;
-	private static Icon dogFront, dogBack, dogLeft, dogRight, wall, ground, bone, bowl, fullBowl, tree;
+   private String objectName;
+   static Image originImg, changedImg;
+   static ImageIcon originIcon;
+   private static Icon dogFront, dogBack, dogLeft, dogRight, wall, ground, bone, bowl, fullBowl, tree;
 
-	public Icon(String objectName) {
-		this.objectName = objectName;
-	}
+   public Icon(String objectName) {
+      this.objectName = objectName;
+   }
 
-	static ImageIcon getDogFront(String dogFrontName) {
-		if (dogFront == null)
-			dogFront = new Icon(dogFrontName);
+   static ImageIcon getDogFront(String dogFrontName) {
+      if (dogFront == null)
+         dogFront = new Icon(dogFrontName);
 
-		return dogFront.getIcon();
-	}
+      return dogFront.getIcon();
+   }
 
-	static ImageIcon getDogBack(String dogBackName) {
-		if (dogBack == null)
-			dogBack = new Icon(dogBackName);
+   static ImageIcon getDogBack(String dogBackName) {
+      if (dogBack == null)
+         dogBack = new Icon(dogBackName);
 
-		return dogBack.getIcon();
-	}
+      return dogBack.getIcon();
+   }
 
-	static ImageIcon getDogLeft(String dogLeftName) {
-		if (dogLeft == null)
-			dogLeft = new Icon(dogLeftName);
+   static ImageIcon getDogLeft(String dogLeftName) {
+      if (dogLeft == null)
+         dogLeft = new Icon(dogLeftName);
 
-		return dogLeft.getIcon();
-	}
+      return dogLeft.getIcon();
+   }
 
-	static ImageIcon getDogRight(String dogRightName) {
-		if (dogRight == null)
-			dogRight = new Icon(dogRightName);
+   static ImageIcon getDogRight(String dogRightName) {
+      if (dogRight == null)
+         dogRight = new Icon(dogRightName);
 
-		return dogRight.getIcon();
-	}
+      return dogRight.getIcon();
+   }
 
-	static ImageIcon getWall(String wallName) {
-		if (wall == null)
-			wall = new Icon(wallName);
+   static ImageIcon getWall(String wallName) {
+      if (wall == null)
+         wall = new Icon(wallName);
 
-		return wall.getIcon();
-	}
+      return wall.getIcon();
+   }
 
-	static ImageIcon getGround(String groundName) {
-		if (ground == null)
-			ground = new Icon(groundName);
+   static ImageIcon getGround(String groundName) {
+      if (ground == null)
+         ground = new Icon(groundName);
 
-		return ground.getGround();
-	}
+      return ground.getGround();
+   }
 
-	static ImageIcon getBone(String boneName) {
-		if (bone == null)
-			bone = new Icon(boneName);
+   static ImageIcon getBone(String boneName) {
+      if (bone == null)
+         bone = new Icon(boneName);
 
-		return bone.getIcon();
-	}
+      return bone.getIcon();
+   }
 
-	static ImageIcon getBowl(String bowlName) {
-		if (bowl == null)
-			bowl = new Icon(bowlName);
+   static ImageIcon getBowl(String bowlName) {
+      if (bowl == null)
+         bowl = new Icon(bowlName);
 
-		return bowl.getIcon();
-	}
+      return bowl.getIcon();
+   }
 
-	static ImageIcon getFullBowl(String fullBowlName) {
-		if (fullBowl == null)
-			fullBowl = new Icon(fullBowlName);
+   static ImageIcon getFullBowl(String fullBowlName) {
+      if (fullBowl == null)
+         fullBowl = new Icon(fullBowlName);
 
-		return fullBowl.getIcon();
-	}
+      return fullBowl.getIcon();
+   }
 
-	static ImageIcon getTree(String treeName) {
-		if (tree == null)
-			tree = new Icon(treeName);
+   static ImageIcon getTree(String treeName) {
+      if (tree == null)
+         tree = new Icon(treeName);
 
-		return tree.getIcon();
-	}
+      return tree.getIcon();
+   }
 
-	public ImageIcon getIcon() {
-		originIcon = new ImageIcon(getIconName());
-		originImg = originIcon.getImage();
-		changedImg = originImg.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-		return new ImageIcon(changedImg);
-	}
-	public ImageIcon getIcon(int column, int row) {
-	    originIcon = new ImageIcon(getIconName());
-	    originImg = originIcon.getImage();
-	    changedImg = originImg.getScaledInstance(column, row, Image.SCALE_SMOOTH);
-	    return new ImageIcon(changedImg);
-	}
+   public ImageIcon getIcon() {
+      originIcon = new ImageIcon(getIconName());
+      originImg = originIcon.getImage();
+      changedImg = originImg.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+      return new ImageIcon(changedImg);
+   }
+   public ImageIcon getIcon(int column, int row) {
+       originIcon = new ImageIcon(getIconName());
+       originImg = originIcon.getImage();
+       changedImg = originImg.getScaledInstance(column, row, Image.SCALE_SMOOTH);
+       return new ImageIcon(changedImg);
+   }
 
-	public ImageIcon getGround() {
-		originIcon = new ImageIcon(getIconName());
-		originImg = originIcon.getImage();
-		return new ImageIcon(originImg);
-	}
+   public ImageIcon getGround() {
+      originIcon = new ImageIcon(getIconName());
+      originImg = originIcon.getImage();
+      return new ImageIcon(originImg);
+   }
 
-	public String getIconName() {
-		return "images/" + objectName;
-	}
+   private String getIconName() {
+      return "images/" + objectName;
+   }
 
 }

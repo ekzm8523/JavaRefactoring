@@ -199,6 +199,147 @@ public class GameController {
 		}
 		undo.nUndo = 0; // 다시 못 바꾸게 하기
 	}
+	public boolean isGameClear(Player player,Undo undo,Map map,
+			ArrayList<Bone> boneList, ArrayList<RiceBowl> riceBowlList)  { // 라운드 클리어 했는지 반환
+		int Goal_Count = 0; // 꽉찬 밥그릇 갯수
+
+		for (int i = 0; i < riceBowlList.size(); i++) {
+			if (map.mapArray[riceBowlList.get(i).getY()][riceBowlList.get(i).getX()] == 2) {
+				Goal_Count++; // 목표지점에 상자가 들어가면 들어감표시.
+			}
+		}
+
+		if (Goal_Count == riceBowlList.size()) { // 밥그릇이 모두 꽉차있는지 여부 반환
+			return true;
+		} else
+			return false;
+	}
+
+	public boolean isGameOver(Player player,Undo undo,Map map,
+			ArrayList<Bone> boneList, ArrayList<RiceBowl> riceBowlList)  { // 움직일 수 없는 상황에 도달했는지(박스가 ㄱ자 벽에 붙으면 게임 오버)
+
+		boolean OverFlag = false;
+
+		for (int i = 0; i < riceBowlList.size(); i++) { // 각 단계의 상자의 개수만큼 확인!!
+			if (map.mapArray[boneList.get(i).getY() - 1][boneList.get(i).getX()] == 1) { // 상자 위가 벽
+				if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() + 1] == 1) { // 게임오버 조건에 충족되면.
+					OverFlag = true; // 오버 미수입니다...
+					for (int j = 0; j < riceBowlList.size(); j++) { // 그게 골인지점에 들어와있는지 확인합니다!
+						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) // 만약 들어와있으면
+							OverFlag = false; // 용의선상에서 제외!!
+					}
+
+					if (OverFlag) { // 게임오버가 확정되면!
+						this.isGameOver = true; // 맞으면 트루!
+						break; // 인연을 끊어버리기~!
+					}
+				} else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() - 1] == 1) { // 왼쪽도 확인
+					OverFlag = true; // 오버 미수입니다...
+					for (int j = 0; j < riceBowlList.size(); j++) { // 그게 골인지점에 들어와있는지 확인합니다!
+						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) // 만약 들어와있으면
+							OverFlag = false; // 용의선상에서 제외!!
+					}
+
+					if (OverFlag) { // 게임오버가 확정되면!
+						this.isGameOver = true; // 맞으면 트루!
+						break; // 인연을 끊어버리기~!
+
+					}
+				}
+			} // if(상자 위쪽 확인)
+
+			else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() + 1] == 1) { // 오른쪽 확인
+				if (map.mapArray[boneList.get(i).getY() - 1][boneList.get(i).getX()] == 1) { // 위쪽도 확인
+					OverFlag = true; // 오버 미수입니다...
+					for (int j = 0; j < riceBowlList.size(); j++) { // 그게 골인지점에 들어와있는지 확인합니다!
+						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) // 만약 들어와있으면
+							OverFlag = false; // 용의선상에서 제외!!
+					}
+
+					if (OverFlag) { // 게임오버가 확정되면!
+						this.isGameOver = true; // 맞으면 트루!
+						break; // 인연을 끊어버리기~!
+					}
+				}
+
+				else if (map.mapArray[boneList.get(i).getY() + 1][boneList.get(i).getX()] == 1) { // 아랫쪽도 확인
+					OverFlag = true; // 오버 미수입니다...
+					for (int j = 0; j < riceBowlList.size(); j++) { // 그게 골인지점에 들어와있는지 확인합니다!
+						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) // 만약 들어와있으면
+							OverFlag = false; // 용의선상에서 제외!!
+					}
+
+					if (OverFlag) { // 게임오버가 확정되면!
+						this.isGameOver = true; // 맞으면 트루!
+						break; // 인연을 끊어버리기~!
+					}
+				}
+			} // if( 상자 오른쪽 확인 )
+
+			else if (map.mapArray[boneList.get(i).getY() + 1][boneList.get(i).getX()] == 1) { // 아랫쪽 확인
+				if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() + 1] == 1) { // 오른쪽 확인
+					OverFlag = true; // 오버 미수입니다...
+					for (int j = 0; j < riceBowlList.size(); j++) { // 그게 골인지점에 들어와있는지 확인합니다!
+						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) // 만약 들어와있으면
+							OverFlag = false; // 용의선상에서 제외!!
+					}
+
+					if (OverFlag) { // 게임오버가 확정되면!
+						this.isGameOver = true; // 맞으면 트루!
+						break; // 인연을 끊어버리기~!
+					}
+				} else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() - 1] == 1) { // 왼쪽도 확인
+					OverFlag = true; // 오버 미수입니다...
+					for (int j = 0; j < riceBowlList.size(); j++) { // 그게 골인지점에 들어와있는지 확인합니다!
+						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) // 만약 들어와있으면
+							OverFlag = false; // 용의선상에서 제외!!
+					}
+
+					if (OverFlag) { // 게임오버가 확정되면!
+						this.isGameOver = true; // 맞으면 트루!
+						break; // 인연을 끊어버리기~!
+					}
+				}
+			} // if( 상자 아랫쪽! )
+
+			else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() - 1] == 1) { // 왼쪽 확인
+				if (map.mapArray[boneList.get(i).getY() + 1][boneList.get(i).getX()] == 1) { // 아랫쪽 확인
+					OverFlag = true; // 오버 미수입니다...
+					for (int j = 0; j < riceBowlList.size(); j++) { // 그게 골인지점에 들어와있는지 확인합니다!
+						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) // 만약 들어와있으면
+							OverFlag = false; // 용의선상에서 제외!!
+					}
+
+					if (OverFlag) { // 게임오버가 확정되면!
+						this.isGameOver = true; // 맞으면 트루!
+						break; // 인연을 끊어버리기~!
+					}
+				} else if (map.mapArray[boneList.get(i).getY() - 1][boneList.get(i).getX()] == 1) { // 위쪽도 확인
+					OverFlag = true; // 오버 미수입니다...
+					for (int j = 0; j < riceBowlList.size(); j++) { // 그게 골인지점에 들어와있는지 확인합니다!
+						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) // 만약 들어와있으면
+							OverFlag = false; // 용의선상에서 제외!!
+					}
+
+					if (OverFlag) { // 게임오버가 확정되면!
+						this.isGameOver = true; // 맞으면 트루!
+						break; // 인연을 끊어버리기~!
+					}
+				}
+			} // if( 상자 왼쪽! )
+
+		} // for(i)
+
+		return this.isGameOver;
+	}
 	
 	
 	

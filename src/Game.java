@@ -5,10 +5,15 @@ public class Game extends JFrame {
 	 
 	private State state;
 	public GameController controller;
+	public View view;
+	public MyListener listener;
 	public Game() {
 		GameManager.getInstance().setGame(this);
 		GameManager.getInstance().setModel(new Model());
 		controller = new GameController();
+		view = new View();
+		listener = new MyListener();
+		
 		setTitle("배고픈 댕댕이");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 700);

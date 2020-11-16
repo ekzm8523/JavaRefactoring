@@ -10,35 +10,23 @@ public class PlayPanel extends JPanel {
 	private Map map;
 	private Undo undo;
 	private boolean isMovable = true; // 움직였는지, 게임 오버됐는지 반환
-	
 	private TimeThread lblTime;
-	
 	private ImageIcon stageIcon,scoreIcon,moveIcon;
 	private JLabel lblStage, lblScore, lblMove;
-	
 	Game game = GameManager.getInstance().getGame();
 	Model model = GameManager.getInstance().getModel();
-	
-// *******
-	
 	Player player = new Player();
 	ArrayList<Bone> boneList = new ArrayList<>();
 	ArrayList<RiceBowl> riceBowlList = new ArrayList<>();
 
-// *******
 	public PlayPanel(int mapArray[][]) {
 		
 		map = new Map(mapArray);
-		undo = new Undo();
-		
+		undo = new Undo();		
 		initPanelSetting();
-		
 		game.listener.addPlayPanelKeyListner(this);
-
 		map.DrawObject(this, player, boneList, riceBowlList);
 		map.DrawMap(this);
-
-		// ---------------------------------맵 그리기------------------------------------
 		
 	}
 	public void initPanelSetting() {
@@ -48,7 +36,7 @@ public class PlayPanel extends JPanel {
 		
 	    stageIcon= new Icon("stage" + model.getLevel() + ".png").getIcon(100,100);
 	    lblStage = new Label(stageIcon).getPlayLabel(0, 0, 100, 100);
-	         
+	    
 	    scoreIcon= new Icon("ScoreBoard.png").getIcon(200,100);
 	    lblScore = new Label(scoreIcon, SwingConstants.CENTER).getPlayLabel(Color.blue,Color.black,100, 0, 200, 100);
 	         

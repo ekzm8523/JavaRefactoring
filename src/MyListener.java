@@ -9,7 +9,7 @@ public class MyListener {
 		
 	}
 	
-	public void playPanelKeyListner(PlayPanel panel) {
+	public void addPlayPanelKeyListner(PlayPanel panel) {
 		panel.addKeyListener(new KeyListener() {
 	         @Override
 	         public void keyTyped(KeyEvent e) {

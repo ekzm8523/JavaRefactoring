@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class GameController {
-	private boolean isMovable = true, isGameOver; // 움직였는지, 게임 오버됐는지 반환
+	public boolean isMovable = true, isGameOver; // 움직였는지, 게임 오버됐는지 반환
 	
 	public GameController() {
 		
@@ -33,17 +33,24 @@ public class GameController {
                  if (boneList.get(i).getX() == player.getX() && boneList.get(i).getY() == player.getY()) {
                     boneList.get(i).setY(undo.undoY);
                  }
-
               }
               undo.nUndo = 11; // 캐릭터와 박스 모두 움직임
               isMovable = true;
            } else { // 벽이면
+        	  System.out.println("벽입니다 !! ");
               // player.getY()++; // 원위치
               player.moveDown();
               isMovable = false; // 못움직임
               undo.nUndo = 0; // 언두도 못함
            }
-        }
+        }else if (map.mapArray[player.getY()][player.getX()] == GameObject.BRICK) {
+            player.moveDown();
+            isMovable = false; // 못움직임
+            undo.nUndo = 0; // 언두도 못함
+         }
+         BarkSound.getInstance().startMusic();
+         
+
 	}
 	void moveDown(Player player,Undo undo,Map map,
 			ArrayList<Bone> boneList, ArrayList<RiceBowl> riceBowlList) {
@@ -71,6 +78,8 @@ public class GameController {
               undo.nUndo = 0;
            }
         } else if (map.mapArray[player.getY()][player.getX()] == 1) {
+      	  System.out.println("벽입니다 !! ");
+
            // player.getY()--;
            player.moveUp();
            isMovable = false;

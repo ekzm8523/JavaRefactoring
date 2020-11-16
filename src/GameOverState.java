@@ -29,7 +29,9 @@ public class GameOverState implements State {
 	@Override
 	public void mainButton() {
 		Game game = GameManager.getInstance().getGame();
+		Model barObject = GameManager.getInstance().getModel();
 		game.setState(MainState.getInstance());
+		barObject.initAll();
 		System.out.println("GameOver -> Main page 진입");
 	}
 
@@ -43,11 +45,6 @@ public class GameOverState implements State {
 		
 	}
 
-	@Override
-	public void inputButton() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void gameClear() {

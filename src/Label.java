@@ -11,8 +11,7 @@ public class Label {
    private ImageIcon labelIcon;
    private JLabel label;
    private static Color mainColor;
-   private static Font mainFont,playFont;
-   
+  
    public Label(String labelName,ImageIcon labelIcon) {
       this.labelName=labelName;
       this.labelIcon=labelIcon;
@@ -23,27 +22,19 @@ public class Label {
    public Label(ImageIcon labelIcon) {
       this.labelIcon=labelIcon;
    }
+   public Label(String labelName) {
+	   this.labelName=labelName;
+   }
    static Color getmainColor() {
       if (mainColor == null)
          mainColor = new Color(226, 115, 111);
 
       return mainColor;
    }
-   static Font getMainFont() {
-      if (mainFont == null)
-         mainFont = new Font("a타임머신", Font.BOLD, 30);
-
-      return mainFont;
-   }
-   static Font getPlayFont() {
-      if (playFont == null)
-         playFont = new Font("Verdana", Font.BOLD, 20);
-
-      return playFont;
-   }
+   
    public JLabel getMainLabel(int widthPosition,int heightPosition, int widthLength, int heightLength){
       label = new JLabel(getLabelName(), getLabelIcon(), SwingUtilities.RIGHT);
-      label.setFont(getMainFont());
+      label.setFont(MyFont.getMainFont());
       label.setForeground(getmainColor());
       label.setBounds(widthPosition, heightPosition, widthLength, heightLength);
       return label;
@@ -52,7 +43,7 @@ public class Label {
       label= new JLabel(getLabelIcon(), SwingConstants.CENTER);
       label.setOpaque(true);
       label.setBackground(backColor);
-      label.setFont(getPlayFont());
+      label.setFont(MyFont.getPlayFont());
       label.setForeground(frontColor);
       label.setBounds(widthPosition, heightPosition, widthLength, heightLength);
       label.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -64,6 +55,12 @@ public class Label {
       label.setBackground(Color.white);
       label.setBounds(widthPosition, heightPosition, widthLength, heightLength);
       return label;
+   }
+   public JLabel getRankLabel(Font font,int widthPosition,int heightPosition, int widthLength, int heightLength) {
+	   label = new JLabel(getLabelName());
+	   label.setBounds(widthPosition, heightPosition, widthLength, heightLength);
+	   label.setFont(font);
+	   return label;
    }
    private String getLabelName() {
       return labelName;

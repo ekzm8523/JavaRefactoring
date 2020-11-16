@@ -29,16 +29,12 @@ public class RankPanel extends JPanel {
 		setBackground(backColor);
 		setLayout(null);
 
-		lblTitle = new JLabel("RANKING");
-		lblTitle.setBounds(50, 50, 500, 90);
-		lblTitle.setFont(new Font("Verdana", Font.BOLD, 50));
+		lblTitle = new Label("RANKING").getRankLabel(MyFont.getRankBIgFont(),50, 50, 500, 90);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblTitle);
 
-		lblSubTitle = new JLabel("     NAME          SCORE");
-		lblSubTitle.setBounds(50, 165, 500, 60);
+		lblSubTitle = new Label("     NAME          SCORE").getRankLabel(MyFont.getRankSmallFont(), 50, 165, 500, 60);
 		lblSubTitle.setOpaque(true);
-		lblSubTitle.setFont(new Font("Verdana", Font.BOLD, 35));
 		lblSubTitle.setForeground(Color.red);
 		add(lblSubTitle);
 
@@ -55,6 +51,7 @@ public class RankPanel extends JPanel {
 			}
 		});
 		add(btnGoMain);
+		
 
 		btnExit = new Button("Exit", exit1).getButton(backColor, 325, 550, 235, 100);
 		btnExit.addActionListener(new ActionListener() {

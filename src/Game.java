@@ -2,27 +2,29 @@ import javax.swing.JFrame;
 
 public class Game extends JFrame {
 	
-	 
-	private State state;
-	public GameController controller;
 	public View view;
 	public MyListener listener;
+	
+	private State state;
+	private GameController controller;
+	
 	public Game() {
 		GameManager.getInstance().setGame(this);
 		GameManager.getInstance().setModel(new Model());
+	    BackgroundMusic.getInstance().startMusic(); // 배경음악 받아서 재생
+
 		controller = new GameController();
 		view = new View();
 		listener = new MyListener();
-		
 		setTitle("배고픈 댕댕이");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 700);
 		setVisible(true);
 		
 		Rank.getInstance().connectDB();
-//		Rank.connectDB();
 		state = MainState.getInstance();
 		pack();
+		
 	}
 	public GameController getController() {
 		return controller;

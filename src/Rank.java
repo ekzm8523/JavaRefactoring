@@ -57,6 +57,7 @@ public class Rank {
 			
 			Game game = GameManager.getInstance().getGame();
 			game.setState(RankState.getInstance());
+			Rank.getInstance().isRankIn();
 			
 		} catch (SQLException e1) {
 			JOptionPane.showMessageDialog(null, "존재하는 닉네임 입니다.");
@@ -122,7 +123,7 @@ public class Rank {
 	public void isRankIn() {
 //		if (rank.getLastScore()[0] < 4 || rank.getLastScore()[1] < nScore)
 		System.out.println(lastScore[0] + "   " + lastScore[1]);
-		if (lastScore[0] < 4 || lastScore[1] < 1600)
+		if (lastScore[0] < 4 || lastScore[1] < 1600)  // 이 1600점이 nScore 가 되어야 한다.
 			JOptionPane.showMessageDialog(null, "랭킹에 진입했습니다.");
 		else
 			JOptionPane.showMessageDialog(null, "랭킹에 진입하지 못했습니다.");

@@ -42,7 +42,7 @@ public class MainPanel extends JPanel {
 //
 //		
 
-		PlayMusic.getInstance().startMusic(); // 배경음악 받아서 재생
+		
 
 		bgmOn = new Icon("bgmOn.png").getIcon(60, 50);
 		bgmOff = new Icon("bgmOff.png").getIcon(60, 50);
@@ -64,11 +64,11 @@ public class MainPanel extends JPanel {
 				if (button.getText().equals("ON")) {
 					changeBgmIcon();
 					button.setText("OFF");
-					PlayMusic.getInstance().stopMusic();// 노래 재생, 멈추기
+					BackgroundMusic.getInstance().stopMusic();// 노래 재생, 멈추기
 				} else {
 					changeBgmIcon();
 					button.setText("ON");
-					PlayMusic.getInstance().startMusic();// 노래 재생, 멈추기
+					BackgroundMusic.getInstance().start();// 노래 재생, 멈추기
 				}
 			}
 		});

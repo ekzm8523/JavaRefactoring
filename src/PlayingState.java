@@ -27,14 +27,20 @@ public class PlayingState implements State {
 	@Override
 	public void gameOver() {
 		Game game = GameManager.getInstance().getGame();
+		TimeThread time = TimeThread.getInstance();
 		game.setState(GameOverState.getInstance());
+		time.stop(true);
+		time.setNull();
 		System.out.println("Playing -> GameOver Page 진입");
 	}
 
 	@Override
 	public void gameClear() {
 		Game game = GameManager.getInstance().getGame();
+		TimeThread time = TimeThread.getInstance();
 		game.setState(GameClearState.getInstance());
+		time.stop(true);
+		time.setNull();
 		System.out.println("Playing -> GameClear Page 진입");
 	}
 
@@ -42,11 +48,17 @@ public class PlayingState implements State {
 	public void nextStage() {
 		Game game = GameManager.getInstance().getGame();
 		Model barObject = GameManager.getInstance().getModel();
-
-		barObject.setScore();
+		TimeThread time = TimeThread.getInstance();
+		
+		barObject.setScore(time.getMinute(),time.getSecond());
+		barObject.initMove();
 		barObject.levelUp();
+		
+		time.stop(true);
+		time.setNull();
 
 		game.setState(PlayingState.getInstance());
+		
 		System.out.println("state는 그대로 PlayingState 이고 보여주는 Stage를 바꿔야 함");
 	}
 
@@ -67,11 +79,4 @@ public class PlayingState implements State {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void inputButton() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

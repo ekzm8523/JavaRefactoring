@@ -31,12 +31,9 @@ public class MainState implements State {
 	public void startButton() {
 		Game game = GameManager.getInstance().getGame();
 		game.setState(PlayingState.getInstance());
-		PlayMusic.getInstance().stopMusic();
+		BackgroundMusic.getInstance().stopMusic();
+		game.getController().setIsGameOverTrue(); 
 		System.out.println("Main -> Game Playing Page 진입");
-	}
-
-	@Override
-	public void inputButton() {
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public class RankState implements State {
 		
 		Rank.getInstance().hideBeforeRankLabel();
 		Rank.getInstance().printRanking(RankPanel.getInstance());
-		Rank.getInstance().isRankIn();
+		
 		game.getContentPane().add(RankPanel.getInstance());
 		game.repaint();
 		game.setVisible(true);
@@ -41,12 +41,6 @@ public class RankState implements State {
 
 	@Override
 	public void startButton() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void inputButton() {
 		// TODO Auto-generated method stub
 
 	}

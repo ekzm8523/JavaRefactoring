@@ -71,7 +71,7 @@ public class GameOverPanel extends JPanel {
 				else {
 					// 점수는 임시로 1600점
 					intxt = intxt.toUpperCase();
-					Rank.getInstance().setNewRank(1600, intxt);
+					Rank.getInstance().setNewRank(1800, intxt);
 				}
 			}
 		});

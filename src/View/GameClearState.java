@@ -1,13 +1,13 @@
 package View;
+
 import Controller.GameManager;
-import Model.Model;
+import Model.BarObject;
 
 public class GameClearState implements State {
 
 	private static GameClearState gameClearState;
 
 	private GameClearState() {
-		System.out.println("GameClear Page 출력");
 	}
 
 	public static GameClearState getInstance() {
@@ -25,37 +25,30 @@ public class GameClearState implements State {
 	}
 
 	@Override
+	public void mainState() {
+		Game game = GameManager.getInstance().getGame();
+		BarObject barObject = GameManager.getInstance().getBarObject();
+		game.setState(MainState.getInstance());
+		barObject.initBarObjects();
+	}
+
+	@Override
+	public void rankState() {
+	}
+
+	@Override
+	public void playingState() {
+	}
+
+	@Override
 	public void gameClear() {
 	}
 
 	@Override
-	public void mainButton() {
-		Game game = GameManager.getInstance().getGame();
-		Model barObject = GameManager.getInstance().getModel();
-		game.setState(MainState.getInstance());
-		barObject.initAll();
-		System.out.println("GameOver -> Main page 진입");
-	}
-
-	@Override
-	public void rankButton() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void startButton() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void gameOver() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void nextStage() {
-		// TODO Auto-generated method stub
-
 	}
-
 }

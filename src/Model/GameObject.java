@@ -6,9 +6,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GameObject {
-	Point boundPoint = new Point();
-	JLabel label;
-	int myObject;
+	protected Point boundPoint = new Point();
+	public JLabel label;
+	protected int myObject;
 	JPanel panel;
 	public static final int GRASS = 0;
 	public static final int BRICK = 1;
@@ -64,7 +64,6 @@ public class GameObject {
 	public void addImageIcon() {
 		label.setBounds(boundPoint.x * 50, boundPoint.y * 50+100, 50, 50);
 		label.setVisible(true);
-		// 여기에 add(label)까지 해주고 싶다……	
 	}
 	
 	

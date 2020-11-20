@@ -1,6 +1,5 @@
 package Model;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 // 뼈 클래스 
 public class Bone extends GameObject{

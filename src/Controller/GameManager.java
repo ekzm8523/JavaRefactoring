@@ -1,31 +1,33 @@
 package Controller;
-import Model.Model;
+
+import Model.BarObject;
 import View.Game;
 
 public class GameManager {
 	private Game mGame;
-	private Model barObject;
-	
-	void setGame(Game _game) {
-		mGame = _game; 
+	private BarObject barObject;
+	public void setGame(Game _game) {
+		mGame = _game;
 	}
-	
+
 	public Game getGame() {
 		return mGame;
 	}
-	
+
 	private static GameManager s_Instance;
-	
+
 	public static GameManager getInstance() {
-		if(s_Instance == null) s_Instance = new GameManager();
+		if (s_Instance == null)
+			s_Instance = new GameManager();
 		return s_Instance;
 	}
+
+	public void setBarObject(BarObject _barObject) {
+		barObject = _barObject;
+	}
+
+	public BarObject getBarObject() {
+		return barObject;
+	}
 	
-	void setModel(Model _model) {
-	      barObject = _model;
-	   }
-	   
-	   public Model getModel() {
-	      return barObject;
-	   }
 }

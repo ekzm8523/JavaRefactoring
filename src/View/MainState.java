@@ -1,14 +1,15 @@
 package View;
+
+import Controller.GameController;
 import Controller.GameManager;
+import Controller.SoundManager;
 import Model.BackgroundMusic;
-import Rank.RankState;
 
 public class MainState implements State {
 
 	private static MainState mainState;
 
 	private MainState() {
-		System.out.println("Main Page 출력");
 	}
 
 	public static MainState getInstance() {
@@ -19,47 +20,37 @@ public class MainState implements State {
 		game.setVisible(true);
 		if (mainState == null)
 			mainState = new MainState();
-		
+
 		return mainState;
 	}
 
 	@Override
-	public void rankButton() {
+	public void rankState() {
 		Game game = GameManager.getInstance().getGame();
 		game.setState(RankState.getInstance());
-		
-		System.out.println("Main -> Ranking Page 진입");
 	}
 
 	@Override
-	public void startButton() {
+	public void playingState() {
 		Game game = GameManager.getInstance().getGame();
 		game.setState(PlayingState.getInstance());
-		BackgroundMusic.getInstance().stopMusic();
-		game.getController().setIsGameOverTrue(); 
-		System.out.println("Main -> Game Playing Page 진입");
+		SoundManager.getInstance().getBGM().stopMusic();
+		GameController.getInstance().setIsGameOverTrue();
 	}
 
 	@Override
-	public void mainButton() {
+	public void mainState() {
 	}
 
 	@Override
 	public void gameOver() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void gameClear() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void nextStage() {
-		// TODO Auto-generated method stub
-
 	}
-
 }

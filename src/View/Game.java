@@ -1,29 +1,25 @@
 package View;
+
 import javax.swing.JFrame;
 
 import Controller.GameController;
 import Controller.GameManager;
 import Controller.MyListener;
+import Controller.Rank;
+import Controller.SoundManager;
 import Model.BackgroundMusic;
-import Model.Model;
-import Rank.Rank;
+import Model.BarObject;
 
 public class Game extends JFrame {
 	
-	public View view;
-	public MyListener listener;
-	
 	private State state;
-	private GameController controller;
 	
 	public Game() {
 		GameManager.getInstance().setGame(this);
-		GameManager.getInstance().setModel(new Model());
-	    BackgroundMusic.getInstance().startMusic(); // 배경음악 받아서 재생
-
-		controller = new GameController();
-		view = new View();
-		listener = new MyListener();
+		GameManager.getInstance().setBarObject(new BarObject());
+		SoundManager.getInstance().getBGM().startMusic();
+		SoundManager.getInstance().getBGM().loopClip();
+	    
 		setTitle("배고픈 댕댕이");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 700);
@@ -34,23 +30,21 @@ public class Game extends JFrame {
 		pack();
 		
 	}
-	public GameController getController() {
-		return controller;
-	}
+	
 	public void setState(State state) {
 		this.state = state;
 	}
 	
-	public void mainButton() {
-		this.state.mainButton();
+	public void mainState() {
+		this.state.mainState();
 	}
 	
-	public void rankButton() {
-		this.state.rankButton();
+	public void rankState() {
+		this.state.rankState();
 	}
 	
-	public void startButton() {
-		this.state.startButton();
+	public void playingState() {
+		this.state.playingState();
 	}
 	
 	public void gameClear() {

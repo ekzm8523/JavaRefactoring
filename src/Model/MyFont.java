@@ -2,31 +2,31 @@ package Model;
 import java.awt.Font;
 
 public class MyFont {
-	private static Font mainFont,playFont,ranksmallFont,rankbigFont;
-	static Font getMainFont() {
-	      if (mainFont == null)
-	         mainFont = new Font("a타임머신", Font.BOLD, 30);
+	private static Font mainPanelFont,playPanelFont,rankPanelSmallFont,rankPanelBigFont;
+	public static Font getMainPanelFont() {
+	      if (mainPanelFont == null)
+	    	  mainPanelFont = new Font("a타임머신", Font.BOLD, 30);
 
-	      return mainFont;
+	      return mainPanelFont;
 	   }
 	
-	static Font getPlayFont() {
-	      if (playFont == null)
-	         playFont = new Font("Verdana", Font.BOLD, 20);
+	public static Font getPlayPanelFont() {
+	      if (playPanelFont == null)
+	    	  playPanelFont = new Font("Verdana", Font.BOLD, 20);
 
-	      return playFont;
+	      return playPanelFont;
 	   }
-	static Font getRankSmallFont() {
-	      if (ranksmallFont == null)
-	    	  ranksmallFont = new Font("Verdana", Font.BOLD, 35);
+	public static Font getRankSmallFont() {
+	      if (rankPanelSmallFont == null)
+	    	  rankPanelSmallFont = new Font("Verdana", Font.BOLD, 35);
 
-	      return ranksmallFont;
+	      return rankPanelSmallFont;
 	   }
-	static Font getRankBIgFont() {
-	      if (rankbigFont == null)
-	    	  rankbigFont = new Font("Verdana", Font.BOLD, 50);
+	public static Font getRankBIgFont() {
+	      if (rankPanelBigFont == null)
+	    	  rankPanelBigFont = new Font("Verdana", Font.BOLD, 50);
 
-	      return rankbigFont;
+	      return rankPanelBigFont;
 	   }
 	   
 }

@@ -11,7 +11,7 @@ public class Label {
    private String labelName;
    private ImageIcon labelIcon;
    private JLabel label;
-   private static Color mainColor;
+   private static Color mainBackgroundColor;
   
    public Label(String labelName,ImageIcon labelIcon) {
       this.labelName=labelName;
@@ -26,38 +26,40 @@ public class Label {
    public Label(String labelName) {
 	   this.labelName=labelName;
    }
-   static Color getmainColor() {
-      if (mainColor == null)
-         mainColor = new Color(226, 115, 111);
+   static Color getMainBackgroundColor() {
+      if (mainBackgroundColor == null)
+    	  mainBackgroundColor = new Color(226, 115, 111);
 
-      return mainColor;
+      return mainBackgroundColor;
    }
    
-   public JLabel getMainLabel(int widthPosition,int heightPosition, int widthLength, int heightLength){
+   
+   // 상태변경 , 반환 메소드로 나눌지 여쭤보기
+   public JLabel setMainLabelWithPosition(int widthPosition,int heightPosition, int widthLength, int heightLength){
       label = new JLabel(getLabelName(), getLabelIcon(), SwingUtilities.RIGHT);
-      label.setFont(MyFont.getMainFont());
-      label.setForeground(getmainColor());
+      label.setFont(MyFont.getMainPanelFont());
+      label.setForeground(getMainBackgroundColor());
       label.setBounds(widthPosition, heightPosition, widthLength, heightLength);
       return label;
    }
-   public JLabel getPlayLabel(Color backColor,Color frontColor,int widthPosition,int heightPosition, int widthLength, int heightLength) {
+   public JLabel setLabelWithColorNPosition(Color backgroundColor,Color fontColor,int widthPosition,int heightPosition, int widthLength, int heightLength) {
       label= new JLabel(getLabelIcon(), SwingConstants.CENTER);
       label.setOpaque(true);
-      label.setBackground(backColor);
-      label.setFont(MyFont.getPlayFont());
-      label.setForeground(frontColor);
+      label.setBackground(backgroundColor);
+      label.setFont(MyFont.getPlayPanelFont());
+      label.setForeground(fontColor);
       label.setBounds(widthPosition, heightPosition, widthLength, heightLength);
       label.setHorizontalTextPosition(SwingConstants.CENTER);
       return label;
    }
-   public JLabel getPlayLabel(int widthPosition,int heightPosition, int widthLength, int heightLength) {
+   public JLabel setPlayLabelWithPosition(int widthPosition,int heightPosition, int widthLength, int heightLength) {
       label= new JLabel(getLabelIcon());
       label.setOpaque(true);
       label.setBackground(Color.white);
       label.setBounds(widthPosition, heightPosition, widthLength, heightLength);
       return label;
    }
-   public JLabel getRankLabel(Font font,int widthPosition,int heightPosition, int widthLength, int heightLength) {
+   public JLabel setRankLabelWithFontNPosition(Font font,int widthPosition,int heightPosition, int widthLength, int heightLength) {
 	   label = new JLabel(getLabelName());
 	   label.setBounds(widthPosition, heightPosition, widthLength, heightLength);
 	   label.setFont(font);

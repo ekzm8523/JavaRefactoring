@@ -3,82 +3,82 @@ package Model;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-public class Icon {
+public class MyIcon {
    private String objectName;
-   static Image originImg, changedImg;
-   static ImageIcon originIcon;
-   private static Icon dogFront, dogBack, dogLeft, dogRight, wall, ground, bone, bowl, fullBowl, tree;
+   private static Image originImg, changedImg;
+   private static ImageIcon originIcon;
+   private static MyIcon dogFront, dogBack, dogLeft, dogRight, wall, ground, bone, bowl, fullBowl, tree;
 
-   public Icon(String objectName) {
+   public MyIcon(String objectName) {
       this.objectName = objectName;
    }
 
    static ImageIcon getDogFront(String dogFrontName) {
       if (dogFront == null)
-         dogFront = new Icon(dogFrontName);
+         dogFront = new MyIcon(dogFrontName);
 
       return dogFront.getIcon();
    }
 
    static ImageIcon getDogBack(String dogBackName) {
       if (dogBack == null)
-         dogBack = new Icon(dogBackName);
+         dogBack = new MyIcon(dogBackName);
 
       return dogBack.getIcon();
    }
 
    static ImageIcon getDogLeft(String dogLeftName) {
       if (dogLeft == null)
-         dogLeft = new Icon(dogLeftName);
+         dogLeft = new MyIcon(dogLeftName);
 
       return dogLeft.getIcon();
    }
 
    static ImageIcon getDogRight(String dogRightName) {
       if (dogRight == null)
-         dogRight = new Icon(dogRightName);
+         dogRight = new MyIcon(dogRightName);
 
       return dogRight.getIcon();
    }
 
    static ImageIcon getWall(String wallName) {
       if (wall == null)
-         wall = new Icon(wallName);
+         wall = new MyIcon(wallName);
 
       return wall.getIcon();
    }
 
    static ImageIcon getGround(String groundName) {
       if (ground == null)
-         ground = new Icon(groundName);
+         ground = new MyIcon(groundName);
 
       return ground.getGround();
    }
 
    static ImageIcon getBone(String boneName) {
       if (bone == null)
-         bone = new Icon(boneName);
+         bone = new MyIcon(boneName);
 
       return bone.getIcon();
    }
 
    static ImageIcon getBowl(String bowlName) {
       if (bowl == null)
-         bowl = new Icon(bowlName);
+         bowl = new MyIcon(bowlName);
 
       return bowl.getIcon();
    }
 
    static ImageIcon getFullBowl(String fullBowlName) {
       if (fullBowl == null)
-         fullBowl = new Icon(fullBowlName);
+         fullBowl = new MyIcon(fullBowlName);
 
       return fullBowl.getIcon();
    }
 
    static ImageIcon getTree(String treeName) {
       if (tree == null)
-         tree = new Icon(treeName);
+         tree = new MyIcon(treeName);
 
       return tree.getIcon();
    }

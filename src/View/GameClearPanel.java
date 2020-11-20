@@ -1,4 +1,5 @@
 package View;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,25 +17,25 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import Controller.GameManager;
+import Controller.Rank;
+import Model.BarObject;
 import Model.Button;
-import Model.Icon;
-import Model.Model;
-import Rank.Rank;
+import Model.MyIcon;
 
 public class GameClearPanel extends JPanel {
-
-	private static GameClearPanel gameClearPanel;
+	private static GameClearPanel imgGameClearPanel;
 
 	private JLabel lblGameClear;
-	private JTextField txtInput;
-	private JButton btnInput, btnGoMain;
-	private ImageIcon goMain1, goMain2, input1, input2, gameClear;
+	private JTextField scoreInputTextField;
+	private JButton btnScoreInput, btnMain;
+	private ImageIcon imgBeforeHoveringMain, imgAfterHoveringMain, imgBeforeHoveringInput, imgAfterHoveringInput,
+			imgGameClear;
 
 	public static GameClearPanel getInstance() {
-		if (gameClearPanel == null)
-			gameClearPanel = new GameClearPanel();
+		if (imgGameClearPanel == null)
+			imgGameClearPanel = new GameClearPanel();
 
-		return gameClearPanel;
+		return imgGameClearPanel;
 	}
 
 	private GameClearPanel() {
@@ -44,55 +45,53 @@ public class GameClearPanel extends JPanel {
 		setPreferredSize(new Dimension(600, 700));
 		setLayout(null);
 
-		gameClear = new Icon("GameClear.png").getIcon(400, 200);
-		lblGameClear = new JLabel(gameClear, lblGameClear.CENTER);
+		imgGameClear = new MyIcon("GameClear.png").getIcon(400, 200);
+		lblGameClear = new JLabel(imgGameClear, lblGameClear.CENTER);
 		lblGameClear.setOpaque(false);
 		lblGameClear.setBounds(55, 100, 500, 350);
-
 		add(lblGameClear);
-		
-		txtInput = new JTextField(3);
-		txtInput.setBounds(75, 503, 150, 65);
-		txtInput.setFont(new Font("Verdana", Font.BOLD, 30));
-		txtInput.setAlignmentX(CENTER_ALIGNMENT);
-		txtInput.setDocument(new JTextFieldLimit(3));
-		add(txtInput);
 
-		input1 = new Icon("input1.png").getIcon(150, 70);
-		input2 = new Icon("input2.png").getIcon(150, 70);
+		scoreInputTextField = new JTextField(3);
+		scoreInputTextField.setBounds(75, 503, 150, 65);
+		scoreInputTextField.setFont(new Font("Verdana", Font.BOLD, 30));
+		scoreInputTextField.setAlignmentX(CENTER_ALIGNMENT);
+		scoreInputTextField.setDocument(new JTextFieldLimit(3));
+		add(scoreInputTextField);
 
+		imgBeforeHoveringInput = new MyIcon("input1.png").getIcon(150, 70);
+		imgAfterHoveringInput = new MyIcon("input2.png").getIcon(150, 70);
 
-		
-		btnInput = new Button("input1", input1, input2).getButton(backColor, 240, 500, 160, 75);
-		btnInput.addActionListener(new ActionListener() {
+		btnScoreInput = new Button("imgBeforeHoveringInput", imgBeforeHoveringInput, imgAfterHoveringInput)
+				.setButton(backColor, 240, 500, 160, 75);
+		btnScoreInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Model barObject = GameManager.getInstance().getModel();
-				String intxt = txtInput.getText();
-				txtInput.setText("");
+				BarObject barObject = GameManager.getInstance().getBarObject();
+				String playingName = scoreInputTextField.getText();
+				scoreInputTextField.setText("");
 
-				if (intxt.length() != 3) { // 3글자가 아니면 빈 칸으로 만들고 경고창 띄우기
-					txtInput.setText("");
+				if (playingName.length() != 3) {
+					scoreInputTextField.setText("");
 					JOptionPane.showMessageDialog(null, "닉네임을 3글자로 입력해주세요.");
-				}
-				else {
-					intxt = intxt.toUpperCase();
-					Rank.getInstance().setNewRank(barObject.getScore(), intxt);
-					barObject.initAll();
+				} else {
+					playingName = playingName.toUpperCase();
+					Rank.getInstance().setNewRank(barObject.getScore(), playingName);
+					barObject.initBarObjects();
 				}
 			}
 		});
-		add(btnInput);
+		add(btnScoreInput);
 
-		goMain1 = new Icon("main1.png").getIcon(150, 75);
-		goMain2 = new Icon("main2.png").getIcon(150, 75);
-		
-		btnGoMain = new Button("main1", goMain1, goMain2).getButton(backColor, 410, 500, 160, 75);
-		btnGoMain.addActionListener(new ActionListener() {
+		imgBeforeHoveringMain = new MyIcon("main1.png").getIcon(150, 75);
+		imgAfterHoveringMain = new MyIcon("main2.png").getIcon(150, 75);
+
+		btnMain = new Button("main1", imgBeforeHoveringMain, imgAfterHoveringMain).setButton(backColor, 410, 500, 160,
+				75);
+		btnMain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				game.mainButton();
+				game.mainState();
 			}
 		});
-		add(btnGoMain);
+		add(btnMain);
 	}
 
 	public class JTextFieldLimit extends PlainDocument {
@@ -110,5 +109,4 @@ public class GameClearPanel extends JPanel {
 				super.insertString(offset, str, attr);
 		}
 	}
-
 }

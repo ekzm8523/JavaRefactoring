@@ -1,122 +1,139 @@
 package View;
-import javax.swing.*;
 
+import java.awt.Color;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import Controller.GameController;
 import Controller.GameManager;
+import Controller.MyListener;
+import Controller.SoundManager;
 import Controller.TimeThread;
+import Model.BarObject;
 import Model.BarkSound;
 import Model.Bone;
-import Model.Icon;
+import Model.MyIcon;
 import Model.Label;
-import Model.Model;
 import Model.Player;
 import Model.RiceBowl;
 import Model.Undo;
 
-import java.awt.*;
-import java.util.ArrayList;
-
 public class PlayPanel extends JPanel {
-	private int mapArray[][]; // 화면에 보여질 맵 정보
-	private Map map;
 	private Undo undo;
-	private boolean isMovable = true; // 움직였는지, 게임 오버됐는지 반환
-	private ImageIcon stageIcon,scoreIcon,moveIcon;
-	JLabel lblStage, lblScore, lblMove;
+	private ImageIcon stageIcon, scoreIcon, moveIcon;
+	private JLabel lblStage, lblScore;
+	private JLabel lblMove;
 	boolean isGameOver;
-	Game game = GameManager.getInstance().getGame();
-	Model barObject = GameManager.getInstance().getModel();
-	
-// *******
-	Player player = new Player();
-	ArrayList<Bone> boneList = new ArrayList<>();
-	ArrayList<RiceBowl> riceBowlList = new ArrayList<>();
+	private Game game = GameManager.getInstance().getGame();
+	private BarObject barObject = GameManager.getInstance().getBarObject();
 
-// *******
-   public PlayPanel(int mapArray[][]) {
-      
-      //mapArray = a; // 맵 배열 전달 받기
-      map = new Map(mapArray);
-      undo = new Undo();
-      
-      // 패널 기본 설정
-      setBounds(0, 100, 600, 600);
-      setBackground(Color.red);
-      setLayout(null);
-      game.listener.addPlayPanelKeyListner(this);
+	private Player player = new Player();
+	private ArrayList<Bone> boneList = new ArrayList<>();
+	private ArrayList<RiceBowl> riceBowlList = new ArrayList<>();
 
+	public PlayPanel(int mapArray[][]) {
 
-          stageIcon= new Icon("stage" + barObject.getLevel() + ".png").getIcon(100,100);
-          lblStage = new Label(stageIcon).getPlayLabel(0, 0, 100, 100);
-            
-          scoreIcon= new Icon("ScoreBoard.png").getIcon(200,100);
-          lblScore = new Label(scoreIcon, SwingConstants.CENTER).getPlayLabel(Color.blue,Color.black,100, 0, 200, 100);
-          lblScore.setText(Integer.toString(barObject.getScore()));
-            
-          moveIcon= new Icon("MoveBoard.png").getIcon(150,100);
-          lblMove = new Label(moveIcon, SwingConstants.CENTER).getPlayLabel(Color.red,Color.black,300, 0, 150, 100);
-          lblMove.setText(Integer.toString(barObject.getMove()));
-          
+		MyView.getInstance().SettingMap(mapArray);
+		undo = new Undo();
 
-      TimeThread lblTime = TimeThread.getInstance();
+		setBounds(0, 100, 600, 600);
+		setBackground(Color.red);
+		setLayout(null);
+		MyListener.getInstance().addPlayPanelKeyListner(this);
 
-      add(lblStage);
-      add(lblScore);
-      add(lblMove);
-      add(lblTime);
+		stageIcon = new MyIcon("stage" + getBarObject().getLevel() + ".png").getIcon(100, 100);
+		lblStage = new Label(stageIcon).setPlayLabelWithPosition(0, 0, 100, 100);
 
-      map.DrawObject(this, player, boneList, riceBowlList);
-      map.DrawMap(this);
+		scoreIcon = new MyIcon("ScoreBoard.png").getIcon(200, 100);
+		lblScore = new Label(scoreIcon, SwingConstants.CENTER).setLabelWithColorNPosition(Color.blue, Color.black, 100,
+				0, 200, 100);
+		lblScore.setText(Integer.toString(getBarObject().getScore()));
 
-      // ---------------------------------맵 그리기------------------------------------
-      
-   }
+		moveIcon = new MyIcon("MoveBoard.png").getIcon(150, 100);
+		setLblMove(new Label(moveIcon, SwingConstants.CENTER).setLabelWithColorNPosition(Color.red, Color.black, 300, 0,
+				150, 100));
+		getLblMove().setText(Integer.toString(getBarObject().getMoveCount()));
 
+		TimeThread lblTime = TimeThread.getInstance();
 
+		add(lblStage);
+		add(lblScore);
+		add(getLblMove());
+		add(lblTime);
 
-   public void move(int key) { // 캐릭터와 뼈다귀, 밥그릇 좌표 옮기는 메소드
-      Model barObject = GameManager.getInstance().getModel();
-      
+		MyView.getInstance().DrawObject(this, player, boneList, riceBowlList);
+		MyView.getInstance().DrawMap(this);
+	}
 
-      switch (key) { // 방향키 값을 받아와서 그 값에 따라 움직임
-      case 38: // UP-------------------------------------------------------------------------------------------
-    	  game.getController().moveUp(player, undo, map, boneList, riceBowlList);
-    	  BarkSound.getInstance().startMusic();
-          
-    	  break; // 아래, 왼쪽, 오른쪽도 같은 방법으로 바꿔준다.
-      case 40: // DOWN-------------------------------------------------------------------------------
-    	  game.getController().moveDown(player, undo, map, boneList, riceBowlList);
-     	 
-         BarkSound.getInstance().startMusic();
-         break;
-      case 37: // LEFT----------------------------------------------------------------------------------
-    	  game.getController().moveLeft(player, undo, map, boneList, riceBowlList);
-    	  BarkSound.getInstance().startMusic();
-          
-         break;
-      case 39: // RIGHT--------------------------------------------------------------------------------------
-    	  game.getController().moveRight(player, undo, map, boneList, riceBowlList);
-    	  BarkSound.getInstance().startMusic();
-          
-         break;
-      }
-      
-   } // move
+	public void move(int key) { // 캐릭터와 뼈다귀, 밥그릇 좌표 옮기는 메소드
+		BarObject barObject = GameManager.getInstance().getBarObject();
 
-   public void undo() {
-	   game.getController().undo(player, undo, map, boneList, riceBowlList);
-   } // undo
+		switch (key) { // 방향키 값을 받아와서 그 값에 따라 움직임
+		case 38: // UP
+			GameController.getInstance().moveUp(player, undo, boneList, riceBowlList);
+			break;
+			
+		case 40: // DOWN
+			GameController.getInstance().moveDown(player, undo, boneList, riceBowlList);
+			break;
+			
+		case 37: // LEFT
+			GameController.getInstance().moveLeft(player, undo, boneList, riceBowlList);
+			break;
+			
+		case 39: // RIGHT
+			GameController.getInstance().moveRight(player, undo, boneList, riceBowlList);
+			break;
+			
+		case 90:
+			GameController.getInstance().undo(player, undo, boneList, riceBowlList);
+			break;
+		}
 
-   public void view(int key) { // 화면에 보이게 하기
-      game.view.inputKeyValueView(key, player, undo, map, boneList, riceBowlList);
+	}
 
-   } // view()
+	public void undo() {
+		GameController.getInstance().undo(player, undo, boneList, riceBowlList);
+	}
 
-   public boolean isGameClear() { // 라운드 클리어 했는지 반환
-      return game.getController().isGameClear(player, undo, map, boneList, riceBowlList);
-   }
+	public void view(int key) {
+		MyView.getInstance().inputKeyValueView(key, player, undo, boneList, riceBowlList);
+	}
 
-   public boolean isGameOver() { // 움직일 수 없는 상황에 도달했는지(박스가 ㄱ자 벽에 붙으면 게임 오버)
-	   return game.getController().isGameOver(player, undo, map, boneList, riceBowlList);
+	public boolean isGameClear() {
+		return GameController.getInstance().isGameClear(player, undo, boneList, riceBowlList);
+	}
 
-   }
+	public boolean isGameOver() {
+		return GameController.getInstance().isGameOver(player, undo, boneList, riceBowlList);
+	}
+
+	public JLabel getLblMove() {
+		return lblMove;
+	}
+
+	public void setLblMove(JLabel lblMove) {
+		this.lblMove = lblMove;
+	}
+
+	public BarObject getBarObject() {
+		return barObject;
+	}
+
+	public void setBarObject(BarObject barObject) {
+		this.barObject = barObject;
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
 }

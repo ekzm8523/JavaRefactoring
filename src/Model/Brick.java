@@ -1,6 +1,5 @@
 package Model;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 // 벽돌 클래스 
 public class Brick extends GameObject{

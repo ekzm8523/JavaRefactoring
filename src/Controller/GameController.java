@@ -25,6 +25,7 @@ public class GameController {
 
 	public boolean getIsGameOver() {
 		return isGameOver;
+		
 	}
 
 	public void setIsGameOverTrue() {

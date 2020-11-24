@@ -41,7 +41,7 @@ public class GameController {
 		// 플레이어 이동할 좌표가 BONE이라면
 		if (map.mapArray[player.getY()][player.getX()] == GameObject.BONE) {
 			// 뼈다귀가 이동해야할 부분이 길이나 골인 경우
-			if (map.mapArray[player.getY() - 1][player.getX()] == GameObject.GRASS
+			if (map.mapArray[player.getY() + (*pt)][player.getX()] == GameObject.GRASS
 					|| map.mapArray[player.getY() - 1][player.getX()] == GameObject.RICEBOWL) {
 				// 캐릭터 자리 0으로 만들고 위를 뼈다귀로 바꾸고 뼈위치 기억
 				map.mapArray[player.getY()][player.getX()] = GameObject.GRASS;

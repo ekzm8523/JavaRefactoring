@@ -79,20 +79,24 @@ public class PlayPanel extends JPanel {
 
 		switch (key) { // 방향키 값을 받아와서 그 값에 따라 움직임
 		case 38: // UP
-			GameController.getInstance().moveUp(player, undo, boneList, riceBowlList);
+			//GameController.getInstance().moveUp(player, undo, boneList, riceBowlList);
+			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,0,-1,0);
 			break;
-			
+		case 39: // RIGHT
+			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,1,0,1);
+			//GameController.getInstance().moveRight(player, undo, boneList, riceBowlList);
+			break;	
 		case 40: // DOWN
-			GameController.getInstance().moveDown(player, undo, boneList, riceBowlList);
+			//GameController.getInstance().moveDown(player, undo, boneList, riceBowlList);
+			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,0,1,2);
 			break;
 			
 		case 37: // LEFT
-			GameController.getInstance().moveLeft(player, undo, boneList, riceBowlList);
+			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,-1,0,3);
+			//GameController.getInstance().moveLeft(player, undo, boneList, riceBowlList);
 			break;
 			
-		case 39: // RIGHT
-			GameController.getInstance().moveRight(player, undo, boneList, riceBowlList);
-			break;
+		
 			
 		case 90:
 			GameController.getInstance().undo(player, undo, boneList, riceBowlList);

@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import Model.Bone;
 import Model.GameObject;
-import Model.MyImage;
+import Model.GameImage;
 import Model.Player;
 import Model.RiceBowl;
 import Model.Undo;
@@ -25,16 +25,16 @@ public class MyView {
 		boolean flag = false;
 		switch (key) { // 누른 방향키에 따라 캐릭터 방향바꾸기
 		case 38: // 위
-			player.label.setIcon(MyImage.dogBackImage);
+			player.label.setIcon(GameImage.dogBackImage);
 			break;
 		case 40: // 아래
-			player.label.setIcon(MyImage.dogFrontImage);
+			player.label.setIcon(GameImage.dogFrontImage);
 			break;
 		case 37: // 오른쪽
-			player.label.setIcon(MyImage.dogLeftImage);
+			player.label.setIcon(GameImage.dogLeftImage);
 			break;
 		case 39: // 왼쪽
-			player.label.setIcon(MyImage.dogRightImage);
+			player.label.setIcon(GameImage.dogRightImage);
 			break;
 		}
 
@@ -45,10 +45,10 @@ public class MyView {
 		for (int i = 0; i < riceBowlList.size(); i++) {
 			// 뼈다귀가 있다면(좌표가 겹친다면) 꽉찬 밥그릇
 			if (mapArray[riceBowlList.get(i).getY()][riceBowlList.get(i).getX()] == 2) {
-				riceBowlList.get(i).label.setIcon(MyImage.fullBowlImage);
+				riceBowlList.get(i).label.setIcon(GameImage.fullBowlImage);
 			} else {
 				// 뼈다귀가 있다면 빈 밥그릇
-				riceBowlList.get(i).label.setIcon(MyImage.bowlImage);
+				riceBowlList.get(i).label.setIcon(GameImage.bowlImage);
 			}
 		}
 
@@ -86,15 +86,15 @@ public class MyView {
 				if (mapArray[i][j] == GameObject.PLAYER || mapArray[i][j] == GameObject.BONE
 						|| mapArray[i][j] == GameObject.GRASS || mapArray[i][j] == GameObject.RICEBOWL) {
 
-					mapLabel[i][j] = new JLabel(MyImage.groundImage);
+					mapLabel[i][j] = new JLabel(GameImage.groundImage);
 					mapLabel[i][j].setOpaque(true);
 					panel.add(mapLabel[i][j]);
 				} else if (mapArray[i][j] == 1) { // 벽 그리기
-					mapLabel[i][j] = new JLabel(MyImage.wallImage);
+					mapLabel[i][j] = new JLabel(GameImage.wallImage);
 					mapLabel[i][j].setOpaque(true);
 					panel.add(mapLabel[i][j]);
 				} else if (mapArray[i][j] == 5) { // 밖 그리기
-					mapLabel[i][j] = new JLabel(MyImage.treeImage);
+					mapLabel[i][j] = new JLabel(GameImage.treeImage);
 					mapLabel[i][j].setOpaque(true);
 					panel.add(mapLabel[i][j]);
 				}
@@ -113,18 +113,18 @@ public class MyView {
 				if (mapArray[i][j] == GameObject.PLAYER) { // 캐릭터 좌표 저장
 					mapArray[i][j] = 0;
 					player.setPoint(j,i);
-					player.setImage(MyImage.dogFrontImage);
+					player.setImage(GameImage.dogFrontImage);
 					player.addImageIcon();
 					panel.add(player.label);
 
 				} else if (mapArray[i][j] == GameObject.BONE) { // 뼈다귀의 갯수만큼 좌표 저장, 그리기
-					Bone tmpBone = new Bone(j, i, MyImage.boneImage);
+					Bone tmpBone = new Bone(j, i, GameImage.boneImage);
 					tmpBone.addImageIcon();
 					panel.add(tmpBone.label);
 					boneList.add(tmpBone);
 
 				} else if (mapArray[i][j] == GameObject.RICEBOWL) { // 밥그릇의 갯수만큼 좌표저장, 그리기
-					RiceBowl riceBowl = new RiceBowl(j, i, MyImage.bowlImage);
+					RiceBowl riceBowl = new RiceBowl(j, i, GameImage.bowlImage);
 					riceBowl.addImageIcon();
 					panel.add(riceBowl.label);
 					riceBowlList.add(riceBowl);

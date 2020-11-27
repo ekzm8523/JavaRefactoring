@@ -16,7 +16,7 @@ public class Button {
       this.buttonIconName=buttonIconName;
       }
 
-   public JButton setButton(Color backColor, int widthPosition, int heightPosition, int widthLengh, int heightLength) {
+   public void setButton(Color backColor, int widthPosition, int heightPosition, int widthLengh, int heightLength) {
       button = new JButton(getButtonIconName(), getIconBeforeHovering());
       button.setBounds(widthPosition, heightPosition, widthLengh, heightLength);
       button.setBorderPainted(false);
@@ -24,10 +24,10 @@ public class Button {
       button.setForeground(backColor);
       button.setRolloverIcon(getIconAfterHovering());
       button.setPressedIcon(getIconAfterHovering());
-
-      return button;
    }
-
+   public JButton getButton() {
+	   return button;
+   }
    private ImageIcon getIconAfterHovering() {
       return iconAfterHovering;
    }

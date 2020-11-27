@@ -12,12 +12,4 @@ public class Player extends GameObject{
 		super(x, y, imageIcon);
 		myObject = PLAYER;
 	}
-	public void move(int direction) {
-		switch(direction) {
-		case 0: boundPoint.y--; break;
-		case 1: boundPoint.x++; break;
-		case 2: boundPoint.y++; break;
-		case 3: boundPoint.x--; break;
-		}
-	}
 }

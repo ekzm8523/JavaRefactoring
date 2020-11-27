@@ -6,8 +6,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import Model.MyIcon;
-import Model.MyFont;
+import Model.GameIcon;
+import Model.GameFont;
 
 public class TimeThread extends JLabel implements Runnable {
 
@@ -29,11 +29,11 @@ public class TimeThread extends JLabel implements Runnable {
 		min = 10;
 		sec = 0;
 
-		lblTimeIcon = new MyIcon("TimeBoard.png").getIcon(150, 100);
+		lblTimeIcon = new GameIcon("TimeBoard.png").getIcon(150, 100);
 		setIcon(lblTimeIcon);
 
 		setText("" + min + " : 0" + sec);
-		setFont(MyFont.getPlayPanelFont());
+		setFont(GameFont.getPlayPanelFont());
 		setForeground(Color.black);
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setHorizontalTextPosition(SwingConstants.CENTER);
@@ -82,7 +82,7 @@ public class TimeThread extends JLabel implements Runnable {
 
 		}
 
-		setFont(MyFont.getPlayPanelFont());
+		setFont(GameFont.getPlayPanelFont());
 		setText("00 : 00");
 		setForeground(Color.red);
 	}

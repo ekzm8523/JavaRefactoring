@@ -14,21 +14,25 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import Controller.BackgroundMusic;
 import Controller.GameManager;
 import Controller.SoundManager;
-import Model.BackgroundMusic;
 import Model.Button;
-import Model.MyIcon;
-import Model.Label;
+import Model.GameIcon;
+import Model.AllLabel;
 
 public class MainPanel extends JPanel {
 	private static MainPanel mainPanel;
-	private JButton btnStart, btnRank, btnBGMOnOff;
+	private JButton btnStart, btnRank;
+	public static JButton btnBGMOnOff;
+	private Button buttonStart,buttonRank;
 	private JLabel lblTitle, lblDogDown, lblDogLeft, lblDogRight, lblDogUp;
+	private AllLabel labelDogDown,labelDogLeft,labelDogRight,labelDogUp;
 	private ImageIcon imgTitle;
 	private ImageIcon imgBeforeHoveringStart, imgAfterHoveringStart, imgBeforeHoveringRank, imgAfterHoveringRank,
-			imgDogDown, imgDogLeft, imgDogRight, imgDogUp, bgmOn, bgmOff;
-
+			imgDogDown, imgDogLeft, imgDogRight, imgDogUp;
+	private ImageIcon[] arrowImageArray = new ImageIcon[4];
+	public static ImageIcon bgmOn, bgmOff;
 	public static MainPanel getInstance() {
 		Game game = GameManager.getInstance().getGame();
 		if (mainPanel == null)
@@ -45,8 +49,8 @@ public class MainPanel extends JPanel {
 		setBackground(backColor);
 		setLayout(null);
 
-		bgmOn = new MyIcon("bgmOn.png").getIcon(60, 50);
-		bgmOff = new MyIcon("bgmOff.png").getIcon(60, 50);
+		bgmOn = new GameIcon("bgmOn.png").getIcon(60, 50);
+		bgmOff = new GameIcon("bgmOff.png").getIcon(60, 50);
 		btnBGMOnOff = new JButton("ON", bgmOn);
 		btnBGMOnOff.setSelectedIcon(bgmOff);
 		btnBGMOnOff.setOpaque(false);
@@ -60,11 +64,11 @@ public class MainPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				JButton button = (JButton) e.getSource();
 				if (button.getText().equals("ON")) {
-					changeBgmIcon();
+					SoundManager.getInstance().changeBgmIcon();
 					button.setText("OFF");
 					SoundManager.getInstance().getBGM().stopMusic();
 				} else {
-					changeBgmIcon();
+					SoundManager.getInstance().changeBgmIcon();
 					button.setText("ON");
 					SoundManager.getInstance().getBGM().restartMusic();
 				}
@@ -72,18 +76,23 @@ public class MainPanel extends JPanel {
 		});
 		add(btnBGMOnOff);
 
-		imgBeforeHoveringStart = new MyIcon("start1.png").getIcon(300, 150);
-		imgAfterHoveringStart = new MyIcon("start2.png").getIcon(300, 150);
+		imgBeforeHoveringStart = new GameIcon("start1.png").getIcon(300, 150);
+		imgAfterHoveringStart = new GameIcon("start2.png").getIcon(300, 150);
 
-		imgBeforeHoveringRank = new MyIcon("ranking1.png").getIcon(150, 150);
-		imgAfterHoveringRank = new MyIcon("ranking2.png").getIcon(150, 150);
+		imgBeforeHoveringRank = new GameIcon("ranking1.png").getIcon(150, 150);
+		imgAfterHoveringRank = new GameIcon("ranking2.png").getIcon(150, 150);
 
-		imgDogDown = new MyIcon("cute_front.png").getIcon(47, 45);
-		imgDogLeft = new MyIcon("cute_left.png").getIcon(45, 43);
-		imgDogRight = new MyIcon("cute_right.png").getIcon(45, 45);
-		imgDogUp = new MyIcon("cute_back.png").getIcon(45, 45);
-
-		imgTitle = new MyIcon("Title.png").getIcon(500, 200);
+		imgDogDown = new GameIcon("cute_front.png").getIcon(47, 45);
+		imgDogLeft = new GameIcon("cute_left.png").getIcon(45, 43);
+		imgDogRight = new GameIcon("cute_right.png").getIcon(45, 45);
+		imgDogUp = new GameIcon("cute_back.png").getIcon(45, 45);
+	
+		arrowImageArray[0]=imgDogDown;
+		arrowImageArray[1]=imgDogLeft;
+		arrowImageArray[2]=imgDogRight;
+		arrowImageArray[3]=imgDogUp;
+		
+		imgTitle = new GameIcon("Title.png").getIcon(500, 200);
 
 		lblTitle = new JLabel(imgTitle);
 		lblTitle.setBounds(50, 75, 500, 200);
@@ -91,42 +100,44 @@ public class MainPanel extends JPanel {
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblTitle);
 
-		lblDogDown = new Label("↓", imgDogDown).setMainLabelWithPosition(90, 350, 100, 50);
+		labelDogDown = new AllLabel("↓", arrowImageArray[0]);
+		labelDogDown.setMainLabelWithPosition(90, 350, 100, 50);
+		lblDogDown=labelDogDown.getLabel();
 		add(lblDogDown);
 
-		lblDogLeft = new Label(" ←", imgDogLeft).setMainLabelWithPosition(205, 350, 100, 50);
+		labelDogLeft= new AllLabel(" ←", arrowImageArray[1]);
+		labelDogLeft.setMainLabelWithPosition(205, 350, 100, 50);
+		lblDogLeft=labelDogLeft.getLabel();
 		add(lblDogLeft);
 
-		lblDogRight = new Label(" →", imgDogRight).setMainLabelWithPosition(320, 350, 100, 50);
+		
+		labelDogRight = new AllLabel(" →", arrowImageArray[2]);
+		labelDogRight.setMainLabelWithPosition(320, 350, 100, 50);
+		lblDogRight=labelDogRight.getLabel();
 		add(lblDogRight);
 
-		lblDogUp = new Label("↑", imgDogUp).setMainLabelWithPosition(420, 350, 100, 50);
+		labelDogUp = new AllLabel("↑", arrowImageArray[3]);
+		labelDogUp.setMainLabelWithPosition(420, 350, 100, 50);
+		lblDogUp=labelDogUp.getLabel();
 		add(lblDogUp);
 
-		btnStart = new Button("GO!", imgBeforeHoveringStart, imgAfterHoveringStart).setButton(backColor, 50, 500, 310,
-				150);
+		buttonStart = new Button("GO!", imgBeforeHoveringStart, imgAfterHoveringStart);
+		buttonStart.setButton(backColor, 50, 500, 310,150);
+		btnStart=buttonStart.getButton();
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				game.playingState();
 			}
 		});
 		add(btnStart);
-
-		btnRank = new Button("RANKING", imgBeforeHoveringRank, imgAfterHoveringRank).setButton(backColor, 400, 500, 150,
-				150);
+		buttonRank = new Button("RANKING", imgBeforeHoveringRank, imgAfterHoveringRank);
+		buttonRank.setButton(backColor, 400, 500, 150,150);
+		btnRank=buttonRank.getButton();
 		btnRank.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				game.rankState();
 			}
 		});
 		add(btnRank);
-	}
-
-	public void changeBgmIcon() {
-		if (btnBGMOnOff.getText() == "ON") {
-			btnBGMOnOff.setIcon(bgmOff);
-		} else {
-			btnBGMOnOff.setIcon(bgmOn);
-		}
 	}
 }

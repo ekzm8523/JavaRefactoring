@@ -17,10 +17,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 import Controller.GameManager;
-import Controller.Rank;
 import Model.BarObject;
 import Model.Button;
-import Model.MyIcon;
+import Model.GameIcon;
+import Model.Rank;
 
 public class GameClearPanel extends JPanel {
 	private static GameClearPanel imgGameClearPanel;
@@ -30,7 +30,7 @@ public class GameClearPanel extends JPanel {
 	private JButton btnScoreInput, btnMain;
 	private ImageIcon imgBeforeHoveringMain, imgAfterHoveringMain, imgBeforeHoveringInput, imgAfterHoveringInput,
 			imgGameClear;
-
+	private Button buttonScoreInput, buttonMain;
 	public static GameClearPanel getInstance() {
 		if (imgGameClearPanel == null)
 			imgGameClearPanel = new GameClearPanel();
@@ -45,7 +45,7 @@ public class GameClearPanel extends JPanel {
 		setPreferredSize(new Dimension(600, 700));
 		setLayout(null);
 
-		imgGameClear = new MyIcon("GameClear.png").getIcon(400, 200);
+		imgGameClear = new GameIcon("GameClear.png").getIcon(400, 200);
 		lblGameClear = new JLabel(imgGameClear, lblGameClear.CENTER);
 		lblGameClear.setOpaque(false);
 		lblGameClear.setBounds(55, 100, 500, 350);
@@ -58,11 +58,12 @@ public class GameClearPanel extends JPanel {
 		scoreInputTextField.setDocument(new JTextFieldLimit(3));
 		add(scoreInputTextField);
 
-		imgBeforeHoveringInput = new MyIcon("input1.png").getIcon(150, 70);
-		imgAfterHoveringInput = new MyIcon("input2.png").getIcon(150, 70);
+		imgBeforeHoveringInput = new GameIcon("input1.png").getIcon(150, 70);
+		imgAfterHoveringInput = new GameIcon("input2.png").getIcon(150, 70);
 
-		btnScoreInput = new Button("imgBeforeHoveringInput", imgBeforeHoveringInput, imgAfterHoveringInput)
-				.setButton(backColor, 240, 500, 160, 75);
+		buttonScoreInput = new Button("imgBeforeHoveringInput", imgBeforeHoveringInput, imgAfterHoveringInput);
+		buttonScoreInput.setButton(backColor, 240, 500, 160, 75);
+		btnScoreInput=buttonScoreInput.getButton();
 		btnScoreInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BarObject barObject = GameManager.getInstance().getBarObject();
@@ -81,11 +82,11 @@ public class GameClearPanel extends JPanel {
 		});
 		add(btnScoreInput);
 
-		imgBeforeHoveringMain = new MyIcon("main1.png").getIcon(150, 75);
-		imgAfterHoveringMain = new MyIcon("main2.png").getIcon(150, 75);
-
-		btnMain = new Button("main1", imgBeforeHoveringMain, imgAfterHoveringMain).setButton(backColor, 410, 500, 160,
-				75);
+		imgBeforeHoveringMain = new GameIcon("main1.png").getIcon(150, 75);
+		imgAfterHoveringMain = new GameIcon("main2.png").getIcon(150, 75);
+		buttonMain=new Button("main1", imgBeforeHoveringMain, imgAfterHoveringMain);
+		buttonMain.setButton(backColor, 410, 500, 160,75);
+		btnMain = buttonMain.getButton();
 		btnMain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				game.mainState();

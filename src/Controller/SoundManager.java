@@ -1,7 +1,6 @@
 package Controller;
 
-import Model.BackgroundMusic;
-import Model.BarkSound;
+import View.MainPanel;
 
 public class SoundManager {
 
@@ -26,5 +25,11 @@ public class SoundManager {
 			s_Instance = new SoundManager();
 		return s_Instance;
 	}
-
+	public void changeBgmIcon() {
+		if (MainPanel.btnBGMOnOff.getText() == "ON") {
+			MainPanel.btnBGMOnOff.setIcon(MainPanel.bgmOff);
+		} else {
+			MainPanel.btnBGMOnOff.setIcon(MainPanel.bgmOn);
+		}
+	}
 }

@@ -2,13 +2,15 @@ package View;
 
 import javax.swing.JFrame;
 
+import Controller.BackgroundMusic;
 import Controller.GameController;
 import Controller.GameManager;
-import Controller.MyListener;
-import Controller.Rank;
+import Controller.MainState;
+import Controller.GameListener;
 import Controller.SoundManager;
-import Model.BackgroundMusic;
+import Controller.State;
 import Model.BarObject;
+import Model.Rank;
 
 public class Game extends JFrame {
 	

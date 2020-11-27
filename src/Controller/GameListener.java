@@ -5,13 +5,13 @@ import java.awt.event.KeyListener;
 
 import View.PlayPanel;
 
-public class MyListener {
+public class GameListener {
 
-	private static MyListener s_instance;
+	private static GameListener s_instance;
 	
-	public static MyListener getInstance() {
+	public static GameListener getInstance() {
 		if(s_instance == null)
-			s_instance = new MyListener();
+			s_instance = new GameListener();
 		return s_instance;
 	}
 	public void addPlayPanelKeyListner(PlayPanel panel) {

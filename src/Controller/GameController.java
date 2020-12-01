@@ -15,6 +15,7 @@ public class GameController {
 	public final static int RIGHT = 1;
 	public final static int DOWN = 2;
 	public final static int LEFT = 3;
+	public final static int BREAK = 4;
 	
 	
 	private boolean isMovable = true, isGameOver;
@@ -35,17 +36,21 @@ public class GameController {
 		isGameOver = false;
 	}
 	public void movePlayer(Player player, Undo undo, ArrayList<Bone> boneList,
-			ArrayList<RiceBowl> riceBowlList,int moveX,int moveY,int direction) {
-//		int moveX = 0;
-//		int moveY = -1;
-//		int direction = UP;
+			ArrayList<RiceBowl> riceBowlList,int direction) {
+		int moveX = 0;
+		int moveY = -1; // default == UP
+		
+		if(direction == RIGHT) { moveX = 1; moveY = 0;}
+		else if(direction == DOWN) {moveX = 0; moveY = 1;}
+		else if(direction == LEFT) {moveX = -1; moveY = 0;}
+		
 		int opDirection = (direction+2)%4;
 		
 		player.move(direction);
 		//player.moveUp();
 		GameManager.getInstance().getBarObject().moveCountUp();
 		// 캐릭터만 움직임
-		undo.setnUndo(direction +1);
+		undo.setnUndo(direction);
 		// 플레이어 이동할 좌표가 BONE이라면
 		if (map.mapArray[player.getY()][player.getX()] == GameObject.BONE) {
 			// 뼈다귀가 이동해야할 부분이 길이나 골인 경우
@@ -63,20 +68,20 @@ public class GameController {
 						else boneList.get(i).setX(undo.getUndoX());
 					}
 				}
-				undo.setnUndo((direction+1) *10);
+				undo.setnUndo(direction+10);
 				isMovable = true;
 				// 벽인 경우
 			} else {
 				GameManager.getInstance().getBarObject().moveCountDown();
 				player.move(opDirection);
 				isMovable = false;
-				undo.setnUndo(0);
+				undo.setnUndo(BREAK);
 			}
 		} else if (map.mapArray[player.getY()][player.getX()] == GameObject.BRICK) {
 			player.move(opDirection);
 			isMovable = false;
 			GameManager.getInstance().getBarObject().moveCountDown();
-			undo.setnUndo(0);
+			undo.setnUndo(BREAK);
 		}
 		SoundManager.getInstance().getBarkSound().startMusic();
 	
@@ -273,79 +278,103 @@ public class GameController {
 
 	public void undo(Player player, Undo undo, ArrayList<Bone> boneList,
 			ArrayList<RiceBowl> riceBowlList) {
-		
+	
 		// undo.nUndo값에 따라 직전 상태로 바뀜
-		switch (undo.getnUndo()) {
-		// 캐릭터만 아래로 움직여줌
-		case 1:
-			this.movePlayer(player, undo, boneList, riceBowlList,0,1,2);
-			break;
-
-		// 뼈다귀를 먼저 아래로 움직이고 캐릭터도 아래로 움직여줌
-		case 10:
-			map.mapArray[undo.getUndoY()][undo.getUndoX()] = GameObject.GRASS;
-			map.mapArray[undo.getUndoY() + 1][undo.getUndoX()] = GameObject.BONE;
-			for (int i = 0; i < riceBowlList.size(); i++) {
-				if (boneList.get(i).getX() == undo.getUndoX() && boneList.get(i).getY() == undo.getUndoY()) {
-					boneList.get(i).setY(undo.getUndoY() + 1);
-				}
-			}
-			this.movePlayer(player, undo, boneList, riceBowlList,0,1,2);
-			break;
-		case 2:
-			this.movePlayer(player, undo, boneList, riceBowlList,-1,0,3);
-			break;
-
-		// 캐릭터와 뼈다귀 왼쪽으로 움직이기
-		case 20:
-			map.mapArray[undo.getUndoY()][undo.getUndoX()] = GameObject.GRASS;
-			map.mapArray[undo.getUndoY()][undo.getUndoX() - 1] = GameObject.BONE;
-			for (int i = 0; i < riceBowlList.size(); i++) {
-				if (boneList.get(i).getX() == undo.getUndoX() && boneList.get(i).getY() == undo.getUndoY()) {
-					boneList.get(i).setX(undo.getUndoX() - 1);
-				}
-			}
-			this.movePlayer(player, undo, boneList, riceBowlList,-1,0,3);
-			break;
-		
-		// 캐릭터만 위로 움직여줌
-		case 3:
-			this.movePlayer(player, undo, boneList, riceBowlList,0,-1,0);
-			break;
-
-		// 캐릭터와 뼈다귀 위로 움직여줌
-		case 30:
-			map.mapArray[undo.getUndoY()][undo.getUndoX()] = GameObject.GRASS;
-			map.mapArray[undo.getUndoY() - 1][undo.getUndoX()] = GameObject.BONE;
-			for (int i = 0; i < riceBowlList.size(); i++) {
-				if (boneList.get(i).getX() == undo.getUndoX() && boneList.get(i).getY() == undo.getUndoY()) {
-					boneList.get(i).setY(undo.getUndoY() - 1);
-				}
-			}
-			this.movePlayer(player, undo, boneList, riceBowlList,0,-1,0);
-			break;
-
-		// 캐릭터만 오른쪽으로 움직여줌
-		case 4:
-			this.movePlayer(player, undo, boneList, riceBowlList,1,0,1);
-			break;
-
-		// 캐릭터와 뼈다귀 모두 오른쪽으로 움직여줌
-		case 40:
-			map.mapArray[undo.getUndoY()][undo.getUndoX()] = GameObject.GRASS;
-			map.mapArray[undo.getUndoY()][undo.getUndoX() + 1] = GameObject.BONE;
-			for (int i = 0; i < riceBowlList.size(); i++) {
-				if (boneList.get(i).getX() == undo.getUndoX() && boneList.get(i).getY() == undo.getUndoY()) {
-					boneList.get(i).setX(undo.getUndoX() + 1);
-				}
-			}
-			this.movePlayer(player, undo, boneList, riceBowlList,1,0,1);
-			break;
+		if(UP<=undo.getnUndo() && undo.getnUndo() <= LEFT) {	
+			this.movePlayer(player, undo, boneList, riceBowlList,(undo.getnUndo()+2)%4);
 		}
-		// 캐릭터만 왼쪽으로 움직여줌
+		else if(10<=undo.getnUndo() && undo.getnUndo() <= 13) {
+			int moveX = 0;
+			int moveY = 1;
+			if(undo.getnUndo() == 11) {moveX = -1; moveY = 0;}
+			else if(undo.getnUndo() == 12) {moveX = 0; moveY = -1;}
+			else if(undo.getnUndo() == 13) {moveX = 1; moveY = 0;}
+		
+			map.mapArray[undo.getUndoY()][undo.getUndoX()] = GameObject.GRASS;
+			map.mapArray[undo.getUndoY() + moveY][undo.getUndoX()+moveX] = GameObject.BONE;
+			for (int i = 0; i < riceBowlList.size(); i++) {
+				if (boneList.get(i).getX() == undo.getUndoX() && boneList.get(i).getY() == undo.getUndoY()) {
+					if(undo.getnUndo() % 2 == 0)boneList.get(i).setY(undo.getUndoY() + moveY);
+					else boneList.get(i).setX(undo.getUndoX() + moveX);
+					
+				}
+			}
+			this.movePlayer(player, undo, boneList, riceBowlList,(undo.getnUndo()-10+2)%4);
+		}
+//		switch (undo.getnUndo()) {
+//		// 캐릭터만 아래로 움직여줌
+////		case 1:
+////			this.movePlayer(player, undo, boneList, riceBowlList,DOWN);
+////			break;
+//
+//		// 뼈다귀를 먼저 아래로 움직이고 캐릭터도 아래로 움직여줌
+//		case 10:
+//			int moveX = 0;
+//			int moveY = 1;
+//			
+//			map.mapArray[undo.getUndoY()][undo.getUndoX()] = GameObject.GRASS;
+//			map.mapArray[undo.getUndoY() + moveY][undo.getUndoX()+moveX] = GameObject.BONE;
+//			for (int i = 0; i < riceBowlList.size(); i++) {
+//				if (boneList.get(i).getX() == undo.getUndoX() && boneList.get(i).getY() == undo.getUndoY()) {
+//					boneList.get(i).setY(undo.getUndoY() + moveY);
+//				}
+//			}
+//			this.movePlayer(player, undo, boneList, riceBowlList,DOWN);
+//			break;
+////		case 2:
+////			this.movePlayer(player, undo, boneList, riceBowlList,LEFT);
+////			break;
+//
+//		// 캐릭터와 뼈다귀 왼쪽으로 움직이기
+//		case 20:
+//			map.mapArray[undo.getUndoY()][undo.getUndoX()] = GameObject.GRASS;
+//			map.mapArray[undo.getUndoY()][undo.getUndoX() - 1] = GameObject.BONE;
+//			for (int i = 0; i < riceBowlList.size(); i++) {
+//				if (boneList.get(i).getX() == undo.getUndoX() && boneList.get(i).getY() == undo.getUndoY()) {
+//					boneList.get(i).setX(undo.getUndoX() - 1);
+//				}
+//			}
+//			this.movePlayer(player, undo, boneList, riceBowlList,LEFT);
+//			break;
+//		
+		// 캐릭터만 위로 움직여줌
+////		case 3:
+////			this.movePlayer(player, undo, boneList, riceBowlList,UP);
+////			break;
+//
+//		// 캐릭터와 뼈다귀 위로 움직여줌
+//		case 30:
+//			map.mapArray[undo.getUndoY()][undo.getUndoX()] = GameObject.GRASS;
+//			map.mapArray[undo.getUndoY() - 1][undo.getUndoX()] = GameObject.BONE;
+//			for (int i = 0; i < riceBowlList.size(); i++) {
+//				if (boneList.get(i).getX() == undo.getUndoX() && boneList.get(i).getY() == undo.getUndoY()) {
+//					boneList.get(i).setY(undo.getUndoY() - 1);
+//				}
+//			}
+//			this.movePlayer(player, undo, boneList, riceBowlList,UP);
+//			break;
+//
+//		// 캐릭터만 오른쪽으로 움직여줌
+////		case 4:
+////			this.movePlayer(player, undo, boneList, riceBowlList,RIGHT);
+////			break;
+//
+//		// 캐릭터와 뼈다귀 모두 오른쪽으로 움직여줌
+//		case 40:
+//			map.mapArray[undo.getUndoY()][undo.getUndoX()] = GameObject.GRASS;
+//			map.mapArray[undo.getUndoY()][undo.getUndoX() + 1] = GameObject.BONE;
+//			for (int i = 0; i < riceBowlList.size(); i++) {
+//				if (boneList.get(i).getX() == undo.getUndoX() && boneList.get(i).getY() == undo.getUndoY()) {
+//					boneList.get(i).setX(undo.getUndoX() + 1);
+//				}
+//			}
+//			this.movePlayer(player, undo, boneList, riceBowlList,RIGHT);
+//			break;
+//		}
+//		// 캐릭터만 왼쪽으로 움직여줌
 		
 		SoundManager.getInstance().getBarkSound().startMusic();
-		undo.setnUndo(0); // 다시 못 바꾸게 하기
+		undo.setnUndo(BREAK); // 다시 못 바꾸게 하기
 	}
 
 	public boolean isGameClear(Player player, Undo undo, ArrayList<Bone> boneList,
@@ -366,135 +395,181 @@ public class GameController {
 
 	public boolean isGameOver(Player player, Undo undo, ArrayList<Bone> boneList,
 			ArrayList<RiceBowl> riceBowlList) {
-
+		
 		boolean OverFlag = false;
 		// 각 단계의 뼈다귀의 개수만큼 확인!!
+		
+
 		for (int i = 0; i < riceBowlList.size(); i++) {
 			// 뼈다귀 위가 벽인지 확인 
-			if (map.mapArray[boneList.get(i).getY() - 1][boneList.get(i).getX()] == GameObject.BRICK) { 
-				// 게임오버 조건에 충족되면
-				if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() + 1] == GameObject.BRICK) {
-					OverFlag = true; 
-					 // 골인지점 확인
-					for (int j = 0; j < riceBowlList.size(); j++) {
-						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
-								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
-							OverFlag = false; 
-					}
-					// 게임오버이면
-					if (OverFlag) { 
-						this.isGameOver = true; 
-						break; 
-					}
-				// 왼쪽도 확인	
-				} else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() - 1] == GameObject.BRICK) { 
-					OverFlag = true; 
-					for (int j = 0; j < riceBowlList.size(); j++) { 
-						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
-								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
-							OverFlag = false; 
-					}
-
-					if (OverFlag) { 
-						this.isGameOver = true; 
-						break; 
-
-					}
-				}
-			} 
-			// 뼈다귀 오른쪽 확인
-			else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() + 1] == GameObject.BRICK) {
-				// 위쪽도 확인
-				if (map.mapArray[boneList.get(i).getY() - 1][boneList.get(i).getX()] == GameObject.BRICK) {
-					OverFlag = true; 
-					for (int j = 0; j < riceBowlList.size(); j++) { 
-						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
-								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
-							OverFlag = false; 
-					}
-
-					if (OverFlag) { 
-						this.isGameOver = true; 
-						break; 
-					}
-				}
-				// 아랫쪽도 확인
-				else if (map.mapArray[boneList.get(i).getY() + 1][boneList.get(i).getX()] == GameObject.BRICK) { 
-					OverFlag = true; 
-					for (int j = 0; j < riceBowlList.size(); j++) { 
-						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
-								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
-							OverFlag = false; 
-					}
-
-					if (OverFlag) { 
-						this.isGameOver = true; 
-						break; 
-					}
-				}
-			} 
-			// 뼈다귀 아랫쪽 확인
-			else if (map.mapArray[boneList.get(i).getY() + 1][boneList.get(i).getX()] == GameObject.BRICK) {
-				// 오른쪽 확인
-				if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() + 1] == GameObject.BRICK) { 
-					OverFlag = true; 
-					for (int j = 0; j < riceBowlList.size(); j++) { 
-						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
-								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
-							OverFlag = false; 
-					}
-
-					if (OverFlag) { 
-						this.isGameOver = true; 
-						break; 
-					}
-				// 왼쪽도 확인
-				} else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() - 1] == GameObject.BRICK) { 
-					OverFlag = true; 
-					for (int j = 0; j < riceBowlList.size(); j++) { 
-						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
-								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
-							OverFlag = false; 
-					}
-
-					if (OverFlag) { 
-						this.isGameOver = true; 
-						break; 
-					}
-				}
-			} 
-			// 뼈다귀 왼쪽 확인
-			else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() - 1] == GameObject.BRICK) { 
-				// 아랫쪽 확인
-				if (map.mapArray[boneList.get(i).getY() + 1][boneList.get(i).getX()] == GameObject.BRICK) { 
-					OverFlag = true; 
-					for (int j = 0; j < riceBowlList.size(); j++) { 
-						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
-								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
-							OverFlag = false; 
-					}
-
-					if (OverFlag) { 
-						this.isGameOver = true; 
-						break; 
-					}
-				// 위쪽도 확인	
-				} else if (map.mapArray[boneList.get(i).getY() - 1][boneList.get(i).getX()] == GameObject.BRICK) { 
-					OverFlag = true;
-					for (int j = 0; j < riceBowlList.size(); j++) { 
-						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
-								&& boneList.get(i).getY() == riceBowlList.get(j).getY())
-							OverFlag = false; 
-					}
+			for(int direction = UP;direction<=LEFT;direction++) {
+				int moveX = 0;
+				int moveY = -1; // default == UP
+				if(direction == RIGHT) { moveX = 1; moveY = 0;}
+				else if(direction == DOWN) {moveX = 0; moveY = 1;}
+				else if(direction == LEFT) {moveX = -1; moveY = 0;}
+				
+				if (map.getMapValue(boneList.get(i).getY(),boneList.get(i).getX(),direction) == GameObject.BRICK) { 
+					// 게임오버 조건에 충족되면
+					
+					if (map.getMapValue(boneList.get(i).getY(),boneList.get(i).getX(),(direction-1+4) % 4) == GameObject.BRICK) {
+						OverFlag = true; 
+						 // 골인지점 확인
+						for (int j = 0; j < riceBowlList.size(); j++) {
+							if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+									&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
+								OverFlag = false; 
+						}
+						// 게임오버이면
+						if (OverFlag) { 
+							this.isGameOver = true; 
+							break; 
+						}
+					// 왼쪽도 확인	
+					} else if (map.getMapValue(boneList.get(i).getY(),boneList.get(i).getX(),(direction+1) % 4) == GameObject.BRICK) { 
+						OverFlag = true; 
+						for (int j = 0; j < riceBowlList.size(); j++) { 
+							if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+									&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
+								OverFlag = false; 
+						}
 	
-					if (OverFlag) { 
-						this.isGameOver = true; 
-						break;
+						if (OverFlag) { 
+							this.isGameOver = true; 
+							break; 
+	
+						}
 					}
 				}
 			}
-
 		}
+//		/////////////////
+//		for (int i = 0; i < riceBowlList.size(); i++) {
+//			// 뼈다귀 위가 벽인지 확인 
+//			if (map.mapArray[boneList.get(i).getY() - 1][boneList.get(i).getX()] == GameObject.BRICK) { 
+//				// 게임오버 조건에 충족되면
+//				if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() + 1] == GameObject.BRICK) {
+//					OverFlag = true; 
+//					 // 골인지점 확인
+//					for (int j = 0; j < riceBowlList.size(); j++) {
+//						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+//								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
+//							OverFlag = false; 
+//					}
+//					// 게임오버이면
+//					if (OverFlag) { 
+//						this.isGameOver = true; 
+//						break; 
+//					}
+//				// 왼쪽도 확인	
+//				} else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() - 1] == GameObject.BRICK) { 
+//					OverFlag = true; 
+//					for (int j = 0; j < riceBowlList.size(); j++) { 
+//						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+//								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
+//							OverFlag = false; 
+//					}
+//
+//					if (OverFlag) { 
+//						this.isGameOver = true; 
+//						break; 
+//
+//					}
+//				}
+//			} 
+//			// 뼈다귀 오른쪽 확인
+//			else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() + 1] == GameObject.BRICK) {
+//				// 위쪽도 확인
+//				if (map.mapArray[boneList.get(i).getY() - 1][boneList.get(i).getX()] == GameObject.BRICK) {
+//					OverFlag = true; 
+//					for (int j = 0; j < riceBowlList.size(); j++) { 
+//						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+//								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
+//							OverFlag = false; 
+//					}
+//
+//					if (OverFlag) { 
+//						this.isGameOver = true; 
+//						break; 
+//					}
+//				}
+//				// 아랫쪽도 확인
+//				else if (map.mapArray[boneList.get(i).getY() + 1][boneList.get(i).getX()] == GameObject.BRICK) { 
+//					OverFlag = true; 
+//					for (int j = 0; j < riceBowlList.size(); j++) { 
+//						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+//								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
+//							OverFlag = false; 
+//					}
+//
+//					if (OverFlag) { 
+//						this.isGameOver = true; 
+//						break; 
+//					}
+//				}
+//			} 
+//			// 뼈다귀 아랫쪽 확인
+//			else if (map.mapArray[boneList.get(i).getY() + 1][boneList.get(i).getX()] == GameObject.BRICK) {
+//				// 오른쪽 확인
+//				if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() + 1] == GameObject.BRICK) { 
+//					OverFlag = true; 
+//					for (int j = 0; j < riceBowlList.size(); j++) { 
+//						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+//								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
+//							OverFlag = false; 
+//					}
+//
+//					if (OverFlag) { 
+//						this.isGameOver = true; 
+//						break; 
+//					}
+//				// 왼쪽도 확인
+//				} else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() - 1] == GameObject.BRICK) { 
+//					OverFlag = true; 
+//					for (int j = 0; j < riceBowlList.size(); j++) { 
+//						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+//								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
+//							OverFlag = false; 
+//					}
+//
+//					if (OverFlag) { 
+//						this.isGameOver = true; 
+//						break; 
+//					}
+//				}
+//			} 
+//			// 뼈다귀 왼쪽 확인
+//			else if (map.mapArray[boneList.get(i).getY()][boneList.get(i).getX() - 1] == GameObject.BRICK) { 
+//				// 아랫쪽 확인
+//				if (map.mapArray[boneList.get(i).getY() + 1][boneList.get(i).getX()] == GameObject.BRICK) { 
+//					OverFlag = true; 
+//					for (int j = 0; j < riceBowlList.size(); j++) { 
+//						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+//								&& boneList.get(i).getY() == riceBowlList.get(j).getY()) 
+//							OverFlag = false; 
+//					}
+//
+//					if (OverFlag) { 
+//						this.isGameOver = true; 
+//						break; 
+//					}
+//				// 위쪽도 확인	
+//				} else if (map.mapArray[boneList.get(i).getY() - 1][boneList.get(i).getX()] == GameObject.BRICK) { 
+//					OverFlag = true;
+//					for (int j = 0; j < riceBowlList.size(); j++) { 
+//						if (boneList.get(i).getX() == riceBowlList.get(j).getX()
+//								&& boneList.get(i).getY() == riceBowlList.get(j).getY())
+//							OverFlag = false; 
+//					}
+//	
+//					if (OverFlag) { 
+//						this.isGameOver = true; 
+//						break;
+//					}
+//				}
+//			}
+//
+//		}
 
 		return this.isGameOver;
 	}

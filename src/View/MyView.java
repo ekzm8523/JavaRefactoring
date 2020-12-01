@@ -12,7 +12,13 @@ import Model.Player;
 import Model.RiceBowl;
 import Model.Undo;
 
-public class MyView {
+public class MyView
+ {
+	public final static int UP = 0;
+	public final static int RIGHT = 1;
+	public final static int DOWN = 2;
+	public final static int LEFT = 3; 
+	
 	
 	private static MyView s_Instance;
 	public static MyView getInstance() {
@@ -79,6 +85,18 @@ public class MyView {
 		this.mapArray = mapArray;
 		mapLabel = new JLabel[12][12];
 	}
+	public int getMapValue(int y,int x,int direction) {
+		if(direction == UP) return this.mapArray[y-1][x];
+		else if(direction == RIGHT) return this.mapArray[y][x+1];
+		else if(direction == DOWN) return this.mapArray[y+1][x];
+		else if(direction == LEFT) return this.mapArray[y][x-1];
+		return -1;
+	}
+	public int getMapValue(int y,int x) {
+		return this.mapArray[y][x];
+	}
+	
+	
 	
 	public void DrawMap(JPanel panel) {
 		for (int i = 0; i < 12; i++) {

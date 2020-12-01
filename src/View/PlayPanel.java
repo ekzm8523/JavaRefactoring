@@ -23,6 +23,11 @@ import Model.RiceBowl;
 import Model.Undo;
 
 public class PlayPanel extends JPanel {
+	public final static int UP = 0;
+	public final static int RIGHT = 1;
+	public final static int DOWN = 2;
+	public final static int LEFT = 3;
+	
 	private Undo undo;
 	private ImageIcon stageIcon, scoreIcon, moveIcon;
 	private JLabel lblStage, lblScore,lblMove;
@@ -80,19 +85,19 @@ public class PlayPanel extends JPanel {
 		switch (key) { // 방향키 값을 받아와서 그 값에 따라 움직임
 		case 38: // UP
 			//GameController.getInstance().moveUp(player, undo, boneList, riceBowlList);
-			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,0,-1,0);
+			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,UP);
 			break;
 		case 39: // RIGHT
-			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,1,0,1);
+			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,RIGHT);
 			//GameController.getInstance().moveRight(player, undo, boneList, riceBowlList);
 			break;	
 		case 40: // DOWN
 			//GameController.getInstance().moveDown(player, undo, boneList, riceBowlList);
-			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,0,1,2);
+			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,DOWN);
 			break;
 			
 		case 37: // LEFT
-			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,-1,0,3);
+			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,LEFT);
 			//GameController.getInstance().moveLeft(player, undo, boneList, riceBowlList);
 			break;
 			

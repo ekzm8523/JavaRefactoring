@@ -19,6 +19,7 @@ import Controller.GameManager;
 import Controller.SoundManager;
 import Model.Button;
 import Model.GameIcon;
+import Model.GameImage;
 import Model.AllLabel;
 
 public class MainPanel extends JPanel {
@@ -82,10 +83,11 @@ public class MainPanel extends JPanel {
 		imgBeforeHoveringRank = new GameIcon("ranking1.png").getIcon(150, 150);
 		imgAfterHoveringRank = new GameIcon("ranking2.png").getIcon(150, 150);
 
-		imgDogDown = new GameIcon("cute_front.png").getIcon(47, 45);
+		imgDogDown = new GameIcon("c.png").getIcon(47, 45);
 		imgDogLeft = new GameIcon("cute_left.png").getIcon(45, 43);
 		imgDogRight = new GameIcon("cute_right.png").getIcon(45, 45);
 		imgDogUp = new GameIcon("cute_back.png").getIcon(45, 45);
+	
 	
 		arrowImageArray[0]=imgDogDown;
 		arrowImageArray[1]=imgDogLeft;

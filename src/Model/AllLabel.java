@@ -34,7 +34,6 @@ public class AllLabel {
    }
    
    
-   // 상태변경 , 반환 메소드로 나눌지 여쭤보기
    public void setMainLabelWithPosition(int widthPosition,int heightPosition, int widthLength, int heightLength){
       label = new JLabel(getLabelName(), getLabelIcon(), SwingUtilities.RIGHT);
       label.setFont(GameFont.getMainPanelFont());

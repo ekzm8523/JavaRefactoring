@@ -10,6 +10,7 @@ import javax.swing.SwingConstants;
 
 import Controller.BarkSound;
 import Controller.GameController;
+import Controller.GameDirection;
 import Controller.GameManager;
 import Controller.GameListener;
 import Controller.SoundManager;
@@ -23,10 +24,6 @@ import Model.RiceBowl;
 import Model.Undo;
 
 public class PlayPanel extends JPanel {
-	public final static int UP = 0;
-	public final static int RIGHT = 1;
-	public final static int DOWN = 2;
-	public final static int LEFT = 3;
 	
 	private Undo undo;
 	private ImageIcon stageIcon, scoreIcon, moveIcon;
@@ -81,33 +78,12 @@ public class PlayPanel extends JPanel {
 
 	public void move(int key) { // 캐릭터와 뼈다귀, 밥그릇 좌표 옮기는 메소드
 		BarObject barObject = GameManager.getInstance().getBarObject();
-
-		switch (key) { // 방향키 값을 받아와서 그 값에 따라 움직임
-		case 38: // UP
-			//GameController.getInstance().moveUp(player, undo, boneList, riceBowlList);
-			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,UP);
-			break;
-		case 39: // RIGHT
-			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,RIGHT);
-			//GameController.getInstance().moveRight(player, undo, boneList, riceBowlList);
-			break;	
-		case 40: // DOWN
-			//GameController.getInstance().moveDown(player, undo, boneList, riceBowlList);
-			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,DOWN);
-			break;
-			
-		case 37: // LEFT
-			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,LEFT);
-			//GameController.getInstance().moveLeft(player, undo, boneList, riceBowlList);
-			break;
-			
+		if(GameDirection.D_LEFT <= key && key <= GameDirection.D_DOWN) {
+			int direction = (key + 2) % 4;
+			GameController.getInstance().movePlayer(player, undo, boneList, riceBowlList,direction);
+		}else if(key == GameDirection.UNDO) GameController.getInstance().undo(player, undo, boneList, riceBowlList);
+		 
 		
-			
-		case 90:
-			GameController.getInstance().undo(player, undo, boneList, riceBowlList);
-			break;
-		}
-
 	}
 
 	public void undo() {

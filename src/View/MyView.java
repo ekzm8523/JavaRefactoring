@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Controller.GameDirection;
 import Model.Bone;
 import Model.GameObject;
 import Model.GameImage;
@@ -14,11 +15,6 @@ import Model.Undo;
 
 public class MyView
  {
-	public final static int UP = 0;
-	public final static int RIGHT = 1;
-	public final static int DOWN = 2;
-	public final static int LEFT = 3; 
-	
 	
 	private static MyView s_Instance;
 	public static MyView getInstance() {
@@ -30,16 +26,16 @@ public class MyView
 			ArrayList<RiceBowl> riceBowlList) {
 		boolean flag = false;
 		switch (key) { // 누른 방향키에 따라 캐릭터 방향바꾸기
-		case 38: // 위
+		case GameDirection.D_UP: // 위
 			player.label.setIcon(GameImage.dogBackImage);
 			break;
-		case 40: // 아래
+		case GameDirection.D_DOWN: // 아래
 			player.label.setIcon(GameImage.dogFrontImage);
 			break;
-		case 37: // 오른쪽
+		case GameDirection.D_LEFT: // 오른쪽
 			player.label.setIcon(GameImage.dogLeftImage);
 			break;
-		case 39: // 왼쪽
+		case GameDirection.D_RIGHT: // 왼쪽
 			player.label.setIcon(GameImage.dogRightImage);
 			break;
 		}
@@ -86,10 +82,10 @@ public class MyView
 		mapLabel = new JLabel[12][12];
 	}
 	public int getMapValue(int y,int x,int direction) {
-		if(direction == UP) return this.mapArray[y-1][x];
-		else if(direction == RIGHT) return this.mapArray[y][x+1];
-		else if(direction == DOWN) return this.mapArray[y+1][x];
-		else if(direction == LEFT) return this.mapArray[y][x-1];
+		if(direction == GameDirection.UP) return this.mapArray[y-1][x];
+		else if(direction == GameDirection.RIGHT) return this.mapArray[y][x+1];
+		else if(direction == GameDirection.DOWN) return this.mapArray[y+1][x];
+		else if(direction == GameDirection.LEFT) return this.mapArray[y][x-1];
 		return -1;
 	}
 	public int getMapValue(int y,int x) {
